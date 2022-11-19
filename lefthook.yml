@@ -1,0 +1,13 @@
+# pre-commit:
+#   parallel: false
+#   commands:
+#     eslint:
+#       run: npm run eslint
+#     prettify:
+#       run: npm run prettify
+#     stylelint:
+#       run: npm run stylelint
+#     tests:
+#       run: npm run tests
+#     after-commands:
+#       run: git add .

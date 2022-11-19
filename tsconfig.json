@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "./build/",
+    "baseUrl": "./",
+    "paths": {
+      // "~api/*": ["src/api/*"],
+      "~src/*": ["src/*"],
+      "~ui/*": ["src/ui/*"],
+      "~components/*": ["src/components/*"],
+      "~todo-context/*": ["src/todo-context/*"],
+      "~custom-types/*": ["src/custom-types/*"],
+      "~img/*": ["src/img/*"],
+      "~fonts/*": ["src/fonts/*"],
+      "~styles/*": ["src/styles/*"],
+      // "~containers/*": ["src/containers/*"],
+      // "~routes/*": ["src/routes/*"],
+      // "~redux_related/*": ["src/redux_related/*"],
+      // "~utils/*": ["src/utils/*"],
+      // "~data/*": ["src/data/*"],
+      // "~custom_typings/*": ["src/custom_typings/*"],
+    },
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
+}

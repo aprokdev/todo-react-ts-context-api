@@ -1,0 +1,16 @@
+@import '~styles/vars';
+
+.app {
+    width: 100%;
+    margin: 0 auto;
+    padding: 52px 16px;
+
+    @media (min-width: $ipad-portrait) {
+        width: 800px;
+    }
+
+    &__title {
+        margin-bottom: 60px;
+        text-align: center;
+    }
+}

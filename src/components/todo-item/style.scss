@@ -1,0 +1,71 @@
+@import '~styles/vars';
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    line-height: 24px;
+    border-bottom: 1px solid #eee;
+
+    &__check-group {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        margin-right: 20px;
+    }
+
+    &__action-btn {
+        padding: 0 8px;
+        font-weight: 700;
+        line-height: 24px;
+        color: $primary;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+
+        &:active {
+            color: $primary-active;
+        }
+    }
+
+    &__separator {
+        margin-bottom: 3px;
+        color: $text-01;
+    }
+
+    &__input {
+        width: 100%;
+        height: 24px;
+        margin-bottom: 0;
+        padding: 0 2px 0 0;
+        font-size: 16px;
+        line-height: 24px;
+        border: none;
+        border-radius: 0;
+        outline: none;
+        resize: none;
+
+        &:focus {
+            border: none;
+        }
+    }
+
+    &__created {
+        display: none;
+        flex-shrink: 0;
+        width: 130px;
+        text-align: right;
+        font-size: 12px;
+        line-height: 24px;
+        color: #000;
+        @media (min-width: $ipad-portrait) {
+            display: block;
+        }
+    }
+
+    .button {
+        flex-shrink: 0;
+        width: 130px;
+        margin-left: 16px;
+    }
+}

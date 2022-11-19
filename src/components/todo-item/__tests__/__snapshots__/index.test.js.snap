@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoItem matches snapshot 1`] = `
+<div
+  className="react-reveal todo-item"
+  data-testid="todo-item"
+  style={
+    Object {
+      "opacity": undefined,
+    }
+  }
+>
+  <div
+    className="todo-item__check-group"
+  >
+    <span
+      className="checkbox"
+      data-testid="Test-cb"
+    >
+      <input
+        checked={false}
+        className="checkbox__input"
+        data-testid="Test-cb-input"
+        id="todo-item"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="checkbox__square"
+        data-testid="Test-cb-square"
+        htmlFor="todo-item"
+        onKeyDown={[Function]}
+        tabIndex={0}
+      />
+    </span>
+    <label
+      className="label"
+      data-testid="Test-label"
+      htmlFor="todo-item"
+    >
+      Test
+    </label>
+  </div>
+  <span
+    className="todo-item__created"
+  >
+    Invalid Date
+  </span>
+  <button
+    className="todo-item__action-btn"
+    data-testid="Test-edit"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Edit
+  </button>
+  <span
+    className="todo-item__separator"
+  >
+    /
+  </span>
+  <button
+    className="todo-item__action-btn"
+    data-testid="Test-delete"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Delete
+  </button>
+</div>
+`;

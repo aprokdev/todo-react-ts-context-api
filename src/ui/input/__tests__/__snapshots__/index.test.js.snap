@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input matches snapshot 1`] = `
+<input
+  className="input test"
+  data-testid="input"
+  id="test"
+  onBlur={[Function]}
+  onChange={[Function]}
+  placeholder="Type..."
+  type="text"
+  value=""
+/>
+`;

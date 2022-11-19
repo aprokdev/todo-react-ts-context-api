@@ -1,0 +1,41 @@
+@import '~styles/vars';
+
+.checkbox {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 16px;
+
+    &__icon {
+        display: none;
+    }
+
+    &__input {
+        display: none;
+    }
+
+    &__square {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-color: $color-secondary;
+        border-radius: 4px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: background-color ease 0.2s;
+    }
+
+    &__square .icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    &__input:checked + .icon {
+        display: block;
+    }
+
+    &__input:checked + .checkbox__square {
+        background-color: $primary;
+    }
+}

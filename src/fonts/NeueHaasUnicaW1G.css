@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'NeueHaasUnicaW1G';
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Medium.eot');
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Medium.eot?#iefix') format('embedded-opentype'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Medium.woff2') format('woff2'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Medium.woff') format('woff'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueHaasUnicaW1G';
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Regular.eot');
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Regular.eot?#iefix') format('embedded-opentype'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Regular.woff2') format('woff2'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Regular.woff') format('woff'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueHaasUnicaW1G';
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Heavy.eot');
+    src: url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Heavy.woff2') format('woff2'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Heavy.woff') format('woff'),
+        url('NeueHaasUnicaW1G/NeueHaasUnicaW1G-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}

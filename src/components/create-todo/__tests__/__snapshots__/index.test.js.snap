@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateTodo matches snapshot 1`] = `
+<form
+  className="create-todo"
+>
+  <input
+    className="input"
+    data-testid="todo-input"
+    id="new-todo-input"
+    onChange={[Function]}
+    placeholder="Write new task here..."
+    type="text"
+    value=""
+  />
+  <button
+    className="button"
+    data-testid="todo-create-btn"
+    disabled={true}
+    onClick={[Function]}
+    type="submit"
+  >
+    Add
+  </button>
+</form>
+`;
