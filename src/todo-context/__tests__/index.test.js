@@ -187,7 +187,7 @@ describe('Todo Functionality', () => {
 
         // after first click on header sorts from A to Z:
         await user.click(header);
-        expect(header.innerHTML).toBe('Sort tasks by: ALPHABET');
+        expect(header.innerHTML).toBe('✨ Sort tasks by: ALPHABET');
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.ALPHABET);
 
@@ -205,7 +205,7 @@ describe('Todo Functionality', () => {
 
         // after second click on header sorts from Z to A:
         await user.click(header);
-        expect(header.innerHTML).toBe('Sort tasks by: ALPHABET-REVERSE');
+        expect(header.innerHTML).toBe('✨ Sort tasks by: ALPHABET-REVERSE');
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.ALPHABET_REVERSE);
 
@@ -223,7 +223,7 @@ describe('Todo Functionality', () => {
 
         // after third click on header sorts by creation time:
         await user.click(header);
-        expect(header.innerHTML).toBe('Sort tasks by: CREATION DATE');
+        expect(header.innerHTML).toBe('✨ Sort tasks by: CREATION DATE');
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.BY_DATE);
 

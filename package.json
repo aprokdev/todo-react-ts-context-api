@@ -6,6 +6,7 @@
   "homepage": "app.com",
   "scripts": {
     "build": "npx webpack build --config ./config/webpack.prod.js",
+    "dev": "npx webpack serve --config ./config/webpack.dev.js",
     "start": "npx webpack serve --config ./config/webpack.dev.js",
     "tests": "jest --verbose",
     "tests:dev": "jest --watchAll",

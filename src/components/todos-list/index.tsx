@@ -56,7 +56,7 @@ function TodosList(): JSX.Element {
                     onKeyDown={onKeyDown}
                     ref={headerRef}
                 >
-                    Sort tasks by:
+                    ✨ Sort tasks by:
                     {sorting === sortState.BY_DATE && ' CREATION DATE'}
                     {sorting === sortState.ALPHABET && ' ALPHABET'}
                     {sorting === sortState.ALPHABET_REVERSE && ' ALPHABET-REVERSE'}
