@@ -17,12 +17,16 @@
     font-style: normal;
     letter-spacing: 0;
     font-family: inherit;
-    transition: background-color ease 0.1s;
+    transition: background-color ease 0.2s;
 
     span {
         display: inline-block;
         vertical-align: bottom;
         font-weight: 800;
+    }
+
+    &:hover {
+        background-color: $primary-hover;
     }
 
     &:active {
@@ -34,6 +38,7 @@
         cursor: default;
     }
 
+    &:hover.button:disabled,
     &:active.button:disabled {
         background-color: $primary;
         cursor: default;
