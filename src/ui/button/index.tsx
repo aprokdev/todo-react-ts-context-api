@@ -3,7 +3,8 @@ import React from 'react';
 import './style.scss';
 import { IButtonProps } from './types';
 
-function Button({ className, onClick, type, disabled, children, testId = 'button' }: IButtonProps) {
+function Button(props: IButtonProps): JSX.Element {
+    const { className, onClick, type, disabled, children, testId = 'button' } = props;
     return (
         <button
             type={type ? type : 'button'}

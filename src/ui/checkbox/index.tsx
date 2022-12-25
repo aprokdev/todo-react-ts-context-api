@@ -5,7 +5,8 @@ import { IconCheck } from './icon';
 import './style.scss';
 import { ICheckboxProps } from './types';
 
-function Checkbox({ className, checked, onChange, id, testId = 'checkbox' }: ICheckboxProps) {
+function Checkbox(props: ICheckboxProps): JSX.Element {
+    const { className, checked, onChange, id, testId = 'checkbox' } = props;
     const inputRef = React.useRef(null);
 
     const onKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLLabelElement>) => {

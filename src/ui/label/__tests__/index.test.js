@@ -39,7 +39,11 @@ describe('Checkbox', () => {
         return (
             <div>
                 <Label id={id}>Test</Label>
-                <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} id={id} />
+                <Checkbox
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                    id={id}
+                />
             </div>
         );
     }

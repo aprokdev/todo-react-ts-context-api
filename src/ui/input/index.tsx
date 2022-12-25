@@ -4,7 +4,16 @@ import './style.scss';
 import { IInputProps } from './types';
 
 const Input = React.forwardRef((props: IInputProps, ref: LegacyRef<HTMLInputElement>) => {
-    const { value, className, onChange, onBlur, id, type = 'text', placeholder, testId = 'input' } = props;
+    const {
+        value,
+        className,
+        onChange,
+        onBlur,
+        id,
+        type = 'text',
+        placeholder,
+        testId = 'input',
+    } = props;
     return (
         <input
             type={type}

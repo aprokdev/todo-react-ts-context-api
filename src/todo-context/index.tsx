@@ -92,7 +92,10 @@ export function TodoProvider({ children }: { children: React.ReactNode }) {
             sortingRef.current = sortState.ALPHABET;
         }
 
-        if (sorting === sortState.ALPHABET_REVERSE && sortingRef.current !== sortState.ALPHABET_REVERSE) {
+        if (
+            sorting === sortState.ALPHABET_REVERSE &&
+            sortingRef.current !== sortState.ALPHABET_REVERSE
+        ) {
             updateList(
                 [...list]
                     .sort((a, b) => {

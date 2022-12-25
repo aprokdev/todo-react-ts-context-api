@@ -2,12 +2,12 @@
 
 .label {
     display: inline-block;
+    text-align: left;
     font-size: 16px;
-    line-height: 24px;
     font-weight: normal;
+    line-height: 24px;
     color: $text-01;
     cursor: pointer;
     vertical-align: top;
-    text-align: left;
     white-space: normal;
 }

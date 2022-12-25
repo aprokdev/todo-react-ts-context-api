@@ -72,7 +72,10 @@ context('Traversal', () => {
 
     it('.parentsUntil() - get parent DOM elements from DOM elements until el', () => {
         // https://on.cypress.io/parentsuntil
-        cy.get('.clothes-nav').find('.active').parentsUntil('.clothes-nav').should('have.length', 2);
+        cy.get('.clothes-nav')
+            .find('.active')
+            .parentsUntil('.clothes-nav')
+            .should('have.length', 2);
     });
 
     it('.prev() - get previous sibling DOM element', () => {

@@ -87,7 +87,10 @@ describe('example to-do app', () => {
 
             // After filtering, we can assert that there is only the one
             // incomplete item in the list.
-            cy.get('.todo-list li').should('have.length', 1).first().should('have.text', 'Walk the dog');
+            cy.get('.todo-list li')
+                .should('have.length', 1)
+                .first()
+                .should('have.text', 'Walk the dog');
 
             // For good measure, let's also assert that the task we checked off
             // does not exist on the page.
@@ -99,7 +102,10 @@ describe('example to-do app', () => {
             // that only completed tasks are shown
             cy.contains('Completed').click();
 
-            cy.get('.todo-list li').should('have.length', 1).first().should('have.text', 'Pay electric bill');
+            cy.get('.todo-list li')
+                .should('have.length', 1)
+                .first()
+                .should('have.text', 'Pay electric bill');
 
             cy.contains('Walk the dog').should('not.exist');
         });
@@ -115,7 +121,9 @@ describe('example to-do app', () => {
 
             // Then we can make sure that there is only one element
             // in the list and our element does not exist
-            cy.get('.todo-list li').should('have.length', 1).should('not.have.text', 'Pay electric bill');
+            cy.get('.todo-list li')
+                .should('have.length', 1)
+                .should('not.have.text', 'Pay electric bill');
 
             // Finally, make sure that the clear button no longer exists.
             cy.contains('Clear completed').should('not.exist');

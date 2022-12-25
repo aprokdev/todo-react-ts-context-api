@@ -5,7 +5,7 @@ import { useTodos } from '~todo-context/index';
 import './style.scss';
 
 function CreateTodo() {
-    const [value, updateValue] = React.useState('');
+    const [value, updateValue] = React.useState<string>('');
     const { addTodo } = useTodos();
 
     const createTodo = React.useCallback(

@@ -21,7 +21,8 @@ Element.prototype.removeDataAttribute = function (name) {
 };
 Element.prototype.setDataAttributes = function (items) {
     if (items instanceof Object) {
-        for (var attr in items) if (items.hasOwnProperty(attr)) this.setDataAttribute(attr, items[attr]);
+        for (var attr in items)
+            if (items.hasOwnProperty(attr)) this.setDataAttribute(attr, items[attr]);
     }
 };
 if (!Element.prototype.__lookupGetter__('dataset')) {

@@ -90,19 +90,20 @@ function TodosList(): JSX.Element {
                             />
                         );
                     })}
-            {list.length > 0 && list.find(({ isCompleted }: { isCompleted: boolean }) => isCompleted) && (
-                <Fade bottom>
-                    <div className="todo-list__check-group">
-                        <Checkbox
-                            checked={isCompletedHidden}
-                            onChange={(e) => setHideCompleted(e.target.checked)}
-                            id="#sort-checked"
-                            testId="sort-checked"
-                        />
-                        <Label id="#sort-checked">Hide completed</Label>
-                    </div>
-                </Fade>
-            )}
+            {list.length > 0 &&
+                list.find(({ isCompleted }: { isCompleted: boolean }) => isCompleted) && (
+                    <Fade bottom>
+                        <div className="todo-list__check-group">
+                            <Checkbox
+                                checked={isCompletedHidden}
+                                onChange={(e) => setHideCompleted(e.target.checked)}
+                                id="#sort-checked"
+                                testId="sort-checked"
+                            />
+                            <Label id="#sort-checked">Hide completed</Label>
+                        </div>
+                    </Fade>
+                )}
         </React.Fragment>
     );
 }

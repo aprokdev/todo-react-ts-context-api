@@ -8,7 +8,7 @@ import TextareaAutosize from '~ui/textarea-autosize';
 import './style.scss';
 import { ITodoData, ITodoItem } from './type';
 
-function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem) {
+function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): JSX.Element {
     const { id, label, isCompleted, created }: ITodoData = data;
     const [editing, setEditing] = React.useState(false);
     const [value, setValue] = React.useState(label);
@@ -34,11 +34,18 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem) {
         <Fade bottom>
             <div className="todo-item" data-testid="todo-item">
                 <div className="todo-item__check-group">
-                    <Checkbox checked={isCompleted} onChange={onChangeTodo} id={id} testId={`${label}-cb`} />
+                    <Checkbox
+                        checked={isCompleted}
+                        onChange={onChangeTodo}
+                        id={id}
+                        testId={`${label}-cb`}
+                    />
                     {editing ? (
                         <TextareaAutosize
                             value={value}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                                setValue(e.target.value)
+                            }
                             onBlur={onBlurInput}
                             id={id}
                             className="todo-item__input"

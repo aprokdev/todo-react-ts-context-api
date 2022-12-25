@@ -16,7 +16,9 @@ describe('My First E2E Test', () => {
 
         cy.contains(todos[0]).should('not.exist');
 
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[0]).should('exist');
@@ -28,19 +30,25 @@ describe('My First E2E Test', () => {
     it('creates todo items', () => {
         cy.get('.todo-item').should('not.exist');
 
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[0]).should('exist');
         cy.get('.todo-item').should('have.length', 1);
 
-        cy.get('#new-todo-input').type(todos[1], { delay: typeDelay }).should('have.value', todos[1]);
+        cy.get('#new-todo-input')
+            .type(todos[1], { delay: typeDelay })
+            .should('have.value', todos[1]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[1]).should('exist');
         cy.get('.todo-item').should('have.length', 2);
 
-        cy.get('#new-todo-input').type(todos[2], { delay: typeDelay }).should('have.value', todos[2]);
+        cy.get('#new-todo-input')
+            .type(todos[2], { delay: typeDelay })
+            .should('have.value', todos[2]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[2]).should('exist');
@@ -48,7 +56,9 @@ describe('My First E2E Test', () => {
     });
 
     it('check todo works properly', () => {
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[0]).should('exist');
@@ -60,7 +70,9 @@ describe('My First E2E Test', () => {
     });
 
     it('todo is editable', () => {
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
 
         cy.get('.todo-item .label').should('exist');
@@ -81,7 +93,9 @@ describe('My First E2E Test', () => {
     it('deleting todo works properly', () => {
         cy.contains(todos[0]).should('not.exist');
 
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
 
         cy.contains(todos[0]).should('exist');
@@ -94,13 +108,17 @@ describe('My First E2E Test', () => {
     it('"Hide completed" should hide checked todos', () => {
         // add todo 1
         cy.contains(todos[0]).should('not.exist');
-        cy.get('#new-todo-input').type(todos[0], { delay: typeDelay }).should('have.value', todos[0]);
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
         cy.contains(/add/i).click();
         cy.contains(todos[0]).should('exist');
 
         // add todo 2
         cy.contains(todos[1]).should('not.exist');
-        cy.get('#new-todo-input').type(todos[1], { delay: typeDelay }).should('have.value', todos[1]);
+        cy.get('#new-todo-input')
+            .type(todos[1], { delay: typeDelay })
+            .should('have.value', todos[1]);
         cy.contains(/add/i).click();
         cy.contains(todos[1]).should('exist');
 
@@ -128,7 +146,9 @@ describe('My First E2E Test', () => {
     it('sorting works properly', () => {
         // add todo 1
         cy.contains('Test todo').should('not.exist');
-        cy.get('#new-todo-input').type('Test todo', { delay: typeDelay }).should('have.value', 'Test todo');
+        cy.get('#new-todo-input')
+            .type('Test todo', { delay: typeDelay })
+            .should('have.value', 'Test todo');
         cy.contains(/add/i).click();
         cy.contains('Test todo').should('exist');
 
@@ -158,7 +178,9 @@ describe('My First E2E Test', () => {
 
         // add todo 5
         cy.contains('321123').should('not.exist');
-        cy.get('#new-todo-input').type('321123', { delay: typeDelay }).should('have.value', '321123');
+        cy.get('#new-todo-input')
+            .type('321123', { delay: typeDelay })
+            .should('have.value', '321123');
         cy.contains(/add/i).click();
         cy.contains('321123').should('exist');
 

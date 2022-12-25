@@ -26,4 +26,3 @@ To ensure, that sorting works, you can put the following code to console and pre
         { id: '1660307378285', created: 1660307378285, isCompleted: false, label: 'test text' },
     ]));
 ```
-

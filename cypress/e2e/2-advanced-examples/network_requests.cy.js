@@ -108,7 +108,9 @@ context('Network Requests', () => {
                 // When this callback runs, both "cy.request" API commands have finished
                 // and the test context has "user" and "post" objects set.
                 // Let's verify them.
-                expect(this.post, 'post has the right user id').property('userId').to.equal(this.user.id);
+                expect(this.post, 'post has the right user id')
+                    .property('userId')
+                    .to.equal(this.user.id);
             });
     });
 
@@ -136,7 +138,10 @@ context('Network Requests', () => {
         cy.wait('@postComment').should(({ request, response }) => {
             expect(request.body).to.include('email');
             expect(request.headers).to.have.property('content-type');
-            expect(response && response.body).to.have.property('name', 'Using POST in cy.intercept()');
+            expect(response && response.body).to.have.property(
+                'name',
+                'Using POST in cy.intercept()'
+            );
         });
 
         // Stub a response to PUT comments/ ****

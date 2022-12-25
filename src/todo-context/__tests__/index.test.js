@@ -182,7 +182,8 @@ describe('Todo Functionality', () => {
         expect(screen.queryByText('321123')).toBeInTheDocument();
 
         const header = screen.queryByText(/Sort tasks by: CREATION DATE/i);
-        const regExpToGet = /Test todo|CTest todo number two|ATest todo number three|BTest todo number four|321123/;
+        const regExpToGet =
+            /Test todo|CTest todo number two|ATest todo number three|BTest todo number four|321123/;
 
         // after first click on header sorts from A to Z:
         await user.click(header);
@@ -197,7 +198,9 @@ describe('Todo Functionality', () => {
             'CTest todo number two',
             'Test todo',
         ];
-        const alphabelSortedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
+        const alphabelSortedLabels = screen
+            .queryAllByText(regExpToGet)
+            .map((label) => label.innerHTML);
         expect(alphabelSortedLabels).toEqual(alphabetSortedExpected);
 
         // after second click on header sorts from Z to A:
@@ -213,7 +216,9 @@ describe('Todo Functionality', () => {
             'ATest todo number three',
             '321123',
         ];
-        const alphabeReverselSortedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
+        const alphabeReverselSortedLabels = screen
+            .queryAllByText(regExpToGet)
+            .map((label) => label.innerHTML);
         expect(alphabeReverselSortedLabels).toEqual(alphabetReverseSortedExpected);
 
         // after third click on header sorts by creation time:
@@ -229,20 +234,57 @@ describe('Todo Functionality', () => {
             'BTest todo number four',
             '321123',
         ];
-        const byDateSortedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
+        const byDateSortedLabels = screen
+            .queryAllByText(regExpToGet)
+            .map((label) => label.innerHTML);
         expect(byDateSortedLabels).toEqual(byDateSortedExpected);
     });
 });
 
 const todoListLS = [
-    { id: 'asds dsaddbsaddft1660138005899', label: 'asds dsaddbsaddft', isCompleted: true, created: 1660138005899 },
-    { id: 'pouipiuoiuou1660138010767', label: 'pouipiuoiuou', isCompleted: true, created: 1660138010767 },
-    { id: 'werewrewr1660138025187', label: 'werewrewr', isCompleted: false, created: 1660138025187 },
+    {
+        id: 'asds dsaddbsaddft1660138005899',
+        label: 'asds dsaddbsaddft',
+        isCompleted: true,
+        created: 1660138005899,
+    },
+    {
+        id: 'pouipiuoiuou1660138010767',
+        label: 'pouipiuoiuou',
+        isCompleted: true,
+        created: 1660138010767,
+    },
+    {
+        id: 'werewrewr1660138025187',
+        label: 'werewrewr',
+        isCompleted: false,
+        created: 1660138025187,
+    },
     { id: 'amfdfd1660138034979', label: 'dfgfdamfdfd', isCompleted: true, created: 1660138034979 },
-    { id: 'iidfigdfigdf1660138040124', label: 'iidfigdfigdf', isCompleted: true, created: 1660138040124 },
-    { id: 'bfsdfdsfds1660138042611', label: 'bfsdfdsfds', isCompleted: false, created: 1660138042611 },
-    { id: '12213fdgd1660140356843', label: '12213fdgd', isCompleted: false, created: 1660140356843 },
-    { id: 'test text1660307378285', label: 'test text', isCompleted: false, created: 1660307378285 },
+    {
+        id: 'iidfigdfigdf1660138040124',
+        label: 'iidfigdfigdf',
+        isCompleted: true,
+        created: 1660138040124,
+    },
+    {
+        id: 'bfsdfdsfds1660138042611',
+        label: 'bfsdfdsfds',
+        isCompleted: false,
+        created: 1660138042611,
+    },
+    {
+        id: '12213fdgd1660140356843',
+        label: '12213fdgd',
+        isCompleted: false,
+        created: 1660140356843,
+    },
+    {
+        id: 'test text1660307378285',
+        label: 'test text',
+        isCompleted: false,
+        created: 1660307378285,
+    },
 ];
 
 const orderByCreationDate = [

@@ -3,9 +3,15 @@ import * as React from 'react';
 import './style.scss';
 import { ILabelProps } from './types';
 
-function Label({ id, children, className, testId = 'label' }: ILabelProps) {
+function Label(props: ILabelProps): JSX.Element {
+    const { id, children, className, testId = 'label' } = props;
+
     return (
-        <label className={`label${className ? ` ${className}` : ''}`} htmlFor={id} data-testid={testId}>
+        <label
+            className={`label${className ? ` ${className}` : ''}`}
+            htmlFor={id}
+            data-testid={testId}
+        >
             {children}
         </label>
     );
