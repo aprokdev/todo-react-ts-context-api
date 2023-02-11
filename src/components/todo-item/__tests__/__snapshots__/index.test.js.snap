@@ -2,13 +2,8 @@
 
 exports[`TodoItem matches snapshot 1`] = `
 <div
-  className="react-reveal todo-item"
+  className="todo-item todo-item--invisible"
   data-testid="todo-item"
-  style={
-    Object {
-      "opacity": undefined,
-    }
-  }
 >
   <div
     className="todo-item__check-group"
