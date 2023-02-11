@@ -48,8 +48,9 @@ export function useTodos() {
 }
 
 export function TodoProvider({ children }: { children: React.ReactNode }) {
-    const localState = JSON.parse(localStorage.getItem('todo-list') || '[]');
-    const [list, updateList] = React.useState<Todo[]>(localState);
+    const localList = JSON.parse(localStorage.getItem('todo-list'));
+    const [list, updateList] = React.useState<Todo[]>(localList || []);
+
     const [isCompletedHidden, setHideCompleted] = React.useState<boolean>(false);
     // const [leaveOnlyChecked, setLeaveOnlyChecked] =
     //     React.useState<boolean>(false);

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import PropTypes from 'prop-types';
 import React from 'react';
-import Fade from 'react-reveal/Fade';
+import { useInView } from 'react-intersection-observer';
 import Checkbox from '~ui/checkbox';
 import Label from '~ui/label';
 import TextareaAutosize from '~ui/textarea-autosize';
@@ -12,6 +12,16 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): 
     const { id, label, isCompleted, created }: ITodoData = data;
     const [editing, setEditing] = React.useState(false);
     const [value, setValue] = React.useState(label);
+
+    const { ref, inView } = useInView({
+        threshold: 0.005,
+    });
+    const flagRef = React.useRef<boolean>(false);
+    let changableClasses = 'todo-item--invisible';
+    if (inView || flagRef.current) {
+        changableClasses = 'todo-item--visible';
+        flagRef.current = true;
+    }
 
     const onBlurInput = React.useCallback(() => {
         onEditTodo(value, id);
@@ -31,55 +41,53 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): 
     }, [created]);
 
     return (
-        <Fade bottom>
-            <div className="todo-item" data-testid="todo-item">
-                <div className="todo-item__check-group">
-                    <Checkbox
-                        checked={isCompleted}
-                        onChange={onChangeTodo}
+        <div className={`todo-item ${changableClasses}`} data-testid="todo-item" ref={ref}>
+            <div className="todo-item__check-group">
+                <Checkbox
+                    checked={isCompleted}
+                    onChange={onChangeTodo}
+                    id={id}
+                    testId={`${label}-cb`}
+                />
+                {editing ? (
+                    <TextareaAutosize
+                        value={value}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                            setValue(e.target.value)
+                        }
+                        onBlur={onBlurInput}
                         id={id}
-                        testId={`${label}-cb`}
+                        className="todo-item__input"
+                        autoFocus
+                        data-testid={`${label}-edit-field`}
                     />
-                    {editing ? (
-                        <TextareaAutosize
-                            value={value}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                                setValue(e.target.value)
-                            }
-                            onBlur={onBlurInput}
-                            id={id}
-                            className="todo-item__input"
-                            autoFocus
-                            data-testid={`${label}-edit-field`}
-                        />
-                    ) : (
-                        <Label id={id} testId={`${label}-label`}>
-                            {label}
-                        </Label>
-                    )}
-                </div>
-                <span className="todo-item__created">{date}</span>
-                <button
-                    type="button"
-                    onClick={() => setEditing(true)}
-                    disabled={false}
-                    className="todo-item__action-btn"
-                    data-testid={`${label}-edit`}
-                >
-                    Edit
-                </button>
-                <span className="todo-item__separator">/</span>
-                <button
-                    type="button"
-                    onClick={() => onDeleteTodo(id)}
-                    disabled={false}
-                    className="todo-item__action-btn"
-                    data-testid={`${label}-delete`}
-                >
-                    Delete
-                </button>
+                ) : (
+                    <Label id={id} testId={`${label}-label`}>
+                        {label}
+                    </Label>
+                )}
             </div>
-        </Fade>
+            <span className="todo-item__created">{date}</span>
+            <button
+                type="button"
+                onClick={() => setEditing(true)}
+                disabled={false}
+                className="todo-item__action-btn"
+                data-testid={`${label}-edit`}
+            >
+                Edit
+            </button>
+            <span className="todo-item__separator">/</span>
+            <button
+                type="button"
+                onClick={() => onDeleteTodo(id)}
+                disabled={false}
+                className="todo-item__action-btn"
+                data-testid={`${label}-delete`}
+            >
+                Delete
+            </button>
+        </div>
     );
 }
 

@@ -2,7 +2,6 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import Fade from 'react-reveal/Fade';
 import Checkbox from '~ui/checkbox';
 import Label from '~ui/label';
 import TodoItem from '~components/todo-item';
@@ -92,17 +91,15 @@ function TodosList(): JSX.Element {
                     })}
             {list.length > 0 &&
                 list.find(({ isCompleted }: { isCompleted: boolean }) => isCompleted) && (
-                    <Fade bottom>
-                        <div className="todo-list__check-group">
-                            <Checkbox
-                                checked={isCompletedHidden}
-                                onChange={(e) => setHideCompleted(e.target.checked)}
-                                id="#sort-checked"
-                                testId="sort-checked"
-                            />
-                            <Label id="#sort-checked">Hide completed</Label>
-                        </div>
-                    </Fade>
+                    <div className="todo-list__check-group">
+                        <Checkbox
+                            checked={isCompletedHidden}
+                            onChange={(e) => setHideCompleted(e.target.checked)}
+                            id="#sort-checked"
+                            testId="sort-checked"
+                        />
+                        <Label id="#sort-checked">Hide completed</Label>
+                    </div>
                 )}
         </React.Fragment>
     );
