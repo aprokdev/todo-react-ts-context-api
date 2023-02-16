@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sorting matches snapshot 1`] = `
+<h3
+  className="sorting"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  tabIndex="0"
+>
+  ✨ Sort tasks by: 
+</h3>
+`;

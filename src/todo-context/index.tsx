@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Todo = {
+export type Todo = {
     id: string;
     label: string;
     isCompleted: boolean;
