@@ -1,6 +1,5 @@
 import { IAction } from '~src/todo-context/types';
 
-export interface ISortingProps {
-    sortingTitle: string;
+export interface ICreateTodoProps {
     dispatch: React.Dispatch<IAction>;
 }

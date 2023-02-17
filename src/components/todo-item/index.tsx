@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import 'react-intersection-observer/test-utils';
+import { actionTypes } from '~src/todo-context/actionTypes';
+import { ITodo } from '~src/todo-context/types';
 import Checkbox from '~ui/checkbox';
 import Label from '~ui/label';
 import TextareaAutosize from '~ui/textarea-autosize';
 import './style.scss';
-import { ITodoData, ITodoItem } from './type';
+import { ITodoProps } from './type';
 
-function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): JSX.Element {
-    const { id, label, isCompleted, created }: ITodoData = data;
+function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
+    const { id, label, isCompleted, created }: ITodo = todo;
     const [editing, setEditing] = React.useState(false);
     const [value, setValue] = React.useState(label);
 
@@ -25,9 +27,9 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): 
     }
 
     const onBlurInput = React.useCallback(() => {
-        onEditTodo(value, id);
+        dispatch({ type: actionTypes.EDIT_TODO, text: value, id });
         setEditing(false);
-    }, [id, value, onEditTodo]);
+    }, [id, value, setEditing, dispatch]);
 
     const date = React.useMemo(() => {
         const date = new Date(created);
@@ -42,28 +44,28 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): 
     }, [created]);
 
     return (
-        <div className={`todo-item ${changableClasses}`} data-testid="todo-item" ref={ref}>
+        <div className={`todo-item ${changableClasses}`} data-testid={testId} ref={ref}>
             <div className="todo-item__check-group">
                 <Checkbox
                     checked={isCompleted}
-                    onChange={onChangeTodo}
-                    id={id}
+                    onChange={({ target }) =>
+                        dispatch({ type: actionTypes.CHECK_TODO, id, checked: target.checked })
+                    }
+                    id={String(id)}
                     testId={`${label}-cb`}
                 />
                 {editing ? (
                     <TextareaAutosize
                         value={value}
-                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                            setValue(e.target.value)
-                        }
+                        onChange={(e) => setValue(e.target.value)}
                         onBlur={onBlurInput}
-                        id={id}
+                        id={String(id)}
                         className="todo-item__input"
                         autoFocus
                         data-testid={`${label}-edit-field`}
                     />
                 ) : (
-                    <Label id={id} testId={`${label}-label`}>
+                    <Label id={String(id)} testId={`${label}-label`}>
                         {label}
                     </Label>
                 )}
@@ -81,7 +83,7 @@ function TodoItem({ data, onChangeTodo, onDeleteTodo, onEditTodo }: ITodoItem): 
             <span className="todo-item__separator">/</span>
             <button
                 type="button"
-                onClick={() => onDeleteTodo(id)}
+                onClick={() => dispatch({ type: actionTypes.DELETE_TODO, id })}
                 disabled={false}
                 className="todo-item__action-btn"
                 data-testid={`${label}-delete`}
@@ -105,4 +107,4 @@ TodoItem.propTypes = {
     testId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

@@ -18,4 +18,4 @@ function HideChecked({ isCompletedHidden, setHideCompleted }: IHideCheckedProps)
     );
 }
 
-export default HideChecked;
+export default React.memo(HideChecked);

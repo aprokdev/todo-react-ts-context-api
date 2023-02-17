@@ -2,25 +2,23 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import { sortState } from '~src/todo-context';
+import { actionTypes } from '~todo-context/actionTypes';
+import { sortingText } from '~todo-context/reducer';
 import './style.scss';
 import { ISortingProps } from './types';
 
-function Sorting({ sorting, updateSorting }: ISortingProps) {
+function Sorting({ sortingTitle, dispatch }: ISortingProps) {
     const onHeaderlickHeader = React.useCallback(() => {
-        if (sorting === sortState.BY_DATE) {
-            updateSorting(sortState.ALPHABET);
-            return;
+        if (sortingTitle === sortingText.CREATION_DATE) {
+            dispatch({ type: actionTypes.SORT_BY_ALPHABET });
         }
-        if (sorting === sortState.ALPHABET) {
-            updateSorting(sortState.ALPHABET_REVERSE);
-            return;
+        if (sortingTitle === sortingText.ALPHABET) {
+            dispatch({ type: actionTypes.SORT_BY_ALPHABET_REVERSE });
         }
-        if (sorting === sortState.ALPHABET_REVERSE) {
-            updateSorting(sortState.BY_DATE);
-            return;
+        if (sortingTitle === sortingText.ALPHABET_REVERSE) {
+            dispatch({ type: actionTypes.SORT_BY_DATE });
         }
-    }, [sorting, updateSorting]);
+    }, [dispatch, sortingTitle]);
 
     const headerRef = React.useRef(null);
 
@@ -32,19 +30,16 @@ function Sorting({ sorting, updateSorting }: ISortingProps) {
     }, []);
 
     return (
-        <h4
-            className="todo-list__header"
+        <h3
+            className="sorting"
             onClick={onHeaderlickHeader}
             tabIndex={0}
-            onKeyDown={onKeyDown}
             ref={headerRef}
+            onKeyDown={onKeyDown}
         >
-            ✨ Sort tasks by:
-            {sorting === sortState.BY_DATE && ' CREATION DATE'}
-            {sorting === sortState.ALPHABET && ' ALPHABET'}
-            {sorting === sortState.ALPHABET_REVERSE && ' ALPHABET-REVERSE'}
-        </h4>
+            ✨ Sort tasks by: {sortingTitle}
+        </h3>
     );
 }
 
-export default Sorting;
+export default React.memo(Sorting);
