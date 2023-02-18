@@ -5,14 +5,13 @@ import { act, create } from 'react-test-renderer';
 import TodoItem from '../index';
 
 const props = {
-    data: {
+    todo: {
         id: 'todo-item',
         label: 'Test',
         isCompleted: false,
+        created: 1676239243831,
     },
-    onChangeTodo: () => null,
-    onDeleteTodo: () => null,
-    onEditTodo: () => null,
+    dispatch: () => undefined,
 };
 
 function TestWrapper() {
@@ -20,14 +19,13 @@ function TestWrapper() {
 
     const props = React.useMemo(
         () => ({
-            data: {
+            todo: {
                 id: 'todo-item',
                 label: 'Test',
                 isCompleted: checked,
+                created: 1676239243831,
             },
-            onChangeTodo: () => null,
-            onDeleteTodo: () => null,
-            onEditTodo: () => null,
+            dispatch: () => undefined,
         }),
         [checked]
     );
@@ -55,9 +53,9 @@ describe('TodoItem', () => {
     });
 
     test('label becomes editable after click on "Edit" button', async () => {
-        const mockOnEditTodo = jest.fn();
+        const mockDispatch = jest.fn();
         const user = userEvent.setup();
-        render(<TodoItem {...props} onEditTodo={mockOnEditTodo} />);
+        render(<TodoItem {...props} dispatch={mockDispatch} />);
         expect(screen.queryByTestId('Test-edit-field')).toBeNull();
         const editBtn = screen.getByText(/edit/i);
         await user.click(editBtn);
@@ -66,15 +64,15 @@ describe('TodoItem', () => {
         expect(screen.queryByTestId('Test-edit-field').value).toBe('Test text');
     });
 
-    test('after editing label value onBlur event calls onEditTodo callback', async () => {
-        const mockOnEditTodo = jest.fn();
+    test('after editing label value onBlur event calls dispatch callback', async () => {
+        const mockDispatch = jest.fn();
         const user = userEvent.setup();
-        render(<TodoItem {...props} onEditTodo={mockOnEditTodo} />);
+        render(<TodoItem {...props} dispatch={mockDispatch} />);
         await user.click(screen.getByText(/edit/i));
         await user.type(screen.queryByTestId('Test-edit-field'), ' text');
         expect(screen.queryByTestId('Test-edit-field').value).toBe('Test text');
-        expect(mockOnEditTodo).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
         screen.queryByTestId('Test-edit-field').blur();
-        expect(mockOnEditTodo).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 });

@@ -5,7 +5,7 @@ exports[`Sorting matches snapshot 1`] = `
   className="sorting"
   onClick={[Function]}
   onKeyDown={[Function]}
-  tabIndex="0"
+  tabIndex={0}
 >
   ✨ Sort tasks by: 
 </h3>

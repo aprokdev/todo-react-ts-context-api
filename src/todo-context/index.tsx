@@ -3,7 +3,7 @@ import { todosReducer } from './reducer';
 import { sortingText } from './reducer';
 import { IAction, ITodoState } from './types';
 
-interface ITodoContext {
+export interface ITodoContext {
     state: ITodoState;
     dispatch: React.Dispatch<IAction>;
     isCompletedHidden: boolean;
@@ -19,6 +19,7 @@ export const TodoContext = React.createContext<ITodoContext>({
     isCompletedHidden: true,
     setHideCompleted: () => null,
 });
+
 TodoContext.displayName = 'TodoContext';
 
 export function useTodos() {

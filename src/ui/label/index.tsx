@@ -4,12 +4,12 @@ import './style.scss';
 import { ILabelProps } from './types';
 
 function Label(props: ILabelProps): JSX.Element {
-    const { id, children, className, testId = 'label' } = props;
+    const { children, className, htmlFor, testId = 'label' } = props;
 
     return (
         <label
             className={`label${className ? ` ${className}` : ''}`}
-            htmlFor={id}
+            htmlFor={htmlFor}
             data-testid={testId}
         >
             {children}
@@ -18,7 +18,7 @@ function Label(props: ILabelProps): JSX.Element {
 }
 
 Label.propTypes = {
-    id: PropTypes.string.isRequired,
+    htmlFor: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     testId: PropTypes.string,

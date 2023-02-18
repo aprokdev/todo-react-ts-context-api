@@ -13,9 +13,10 @@ function HideChecked({ isCompletedHidden, setHideCompleted }: IHideCheckedProps)
                 id="#sort-checked"
                 testId="sort-checked"
             />
-            <Label id="#sort-checked">Hide completed</Label>
+            <Label htmlFor="#sort-checked">Hide completed</Label>
         </div>
     );
 }
 
-export default React.memo(HideChecked);
+export default HideChecked;
+// export default React.memo(HideChecked);

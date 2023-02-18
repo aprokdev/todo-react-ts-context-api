@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import 'react-intersection-observer/test-utils';
-import { actionTypes } from '~src/todo-context/actionTypes';
 import { ITodo } from '~src/todo-context/types';
 import Checkbox from '~ui/checkbox';
 import Label from '~ui/label';
 import TextareaAutosize from '~ui/textarea-autosize';
+import { actionTypes } from '~todo-context/actionTypes';
 import './style.scss';
 import { ITodoProps } from './type';
 
@@ -65,7 +65,7 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
                         data-testid={`${label}-edit-field`}
                     />
                 ) : (
-                    <Label id={String(id)} testId={`${label}-label`}>
+                    <Label htmlFor={id} testId={`${label}-label`}>
                         {label}
                     </Label>
                 )}
@@ -95,16 +95,15 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
 }
 
 TodoItem.propTypes = {
-    data: PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        isCompleted: PropTypes.bool,
+    todo: PropTypes.shape({
+        id: PropTypes.string,
         label: PropTypes.string,
+        isCompleted: PropTypes.bool,
         created: PropTypes.number,
     }),
-    onChangeTodo: PropTypes.func,
-    onDeleteTodo: PropTypes.func,
-    onEditTodo: PropTypes.func,
+    dispatch: PropTypes.func,
     testId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default React.memo(TodoItem);
+export default TodoItem;
+// export default React.memo(TodoItem);

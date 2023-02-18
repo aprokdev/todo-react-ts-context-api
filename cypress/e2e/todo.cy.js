@@ -1,4 +1,4 @@
-import { sortState } from '../../src/todo-context';
+import { sortingText } from '../../src/todo-context/reducer';
 
 const page = 'http://localhost:3000/';
 const todos = ['Todo number one', 'Todo number two', 'Todo number three'];
@@ -12,7 +12,7 @@ describe('My First E2E Test', () => {
     });
 
     it('checks todos header visiability', () => {
-        cy.get('.todo-list__header').should('not.exist');
+        cy.get('.sorting').should('not.exist');
 
         cy.contains(todos[0]).should('not.exist');
 
@@ -24,7 +24,7 @@ describe('My First E2E Test', () => {
         cy.contains(todos[0]).should('exist');
         cy.get('.todo-item').should('have.length', 1);
 
-        cy.get('.todo-list__header').should('exist');
+        cy.get('.sorting').should('exist');
     });
 
     it('creates todo items', () => {
@@ -143,7 +143,7 @@ describe('My First E2E Test', () => {
         cy.contains(todos[1]).should('not.exist');
     });
 
-    it('sorting works properly', () => {
+    it('sorting works properly', async () => {
         // add todo 1
         cy.contains('Test todo').should('not.exist');
         cy.get('#new-todo-input')
@@ -184,17 +184,20 @@ describe('My First E2E Test', () => {
         cy.contains(/add/i).click();
         cy.contains('321123').should('exist');
 
-        const header = cy.get('.todo-list__header');
+        const header = cy.get('.sorting');
 
-        cy.get('.todo-list__header').should('contain', 'Sort tasks by: CREATION DATE');
-        cy.getLocalStorage('sorting').should('equal', JSON.stringify(sortState.BY_DATE));
+        cy.get('.sorting').should('contain', 'Sort tasks by: CREATION DATE');
+        cy.getLocalStorage('sortingTitle').should(
+            'equal',
+            JSON.stringify(sortingText.CREATION_DATE)
+        );
 
         // after first click on header sorts from A to Z:
         header.click();
-        cy.get('.todo-list__header').should('contain', 'Sort tasks by: ALPHABET');
+        cy.get('.sorting').should('contain', 'Sort tasks by: ALPHABET');
 
         // checking saving sorting in LocalStorage:
-        cy.getLocalStorage('sorting').should('equal', JSON.stringify(sortState.ALPHABET));
+        cy.getLocalStorage('sortingTitle').should('equal', JSON.stringify(sortingText.ALPHABET));
 
         const alphabetSortedExpected = [
             '321123',
@@ -211,10 +214,13 @@ describe('My First E2E Test', () => {
 
         // after second click on header sorts from Z to A:
         header.click();
-        cy.get('.todo-list__header').should('contain', 'Sort tasks by: ALPHABET-REVERSE');
+        cy.get('.sorting').should('contain', 'Sort tasks by: ALPHABET-REVERSE');
 
         // checking saving sorting in LocalStorage:
-        cy.getLocalStorage('sorting').should('equal', JSON.stringify(sortState.ALPHABET_REVERSE));
+        cy.getLocalStorage('sortingTitle').should(
+            'equal',
+            JSON.stringify(sortingText.ALPHABET_REVERSE)
+        );
 
         const alphabetReverseSortedExpected = [
             'Test todo',
@@ -231,10 +237,13 @@ describe('My First E2E Test', () => {
 
         // after third click on header sorts by creation time:
         header.click();
-        cy.get('.todo-list__header').should('contain', 'Sort tasks by: CREATION DATE');
+        cy.get('.sorting').should('contain', 'Sort tasks by: CREATION DATE');
 
         // checking saving sorting in LocalStorage:
-        cy.getLocalStorage('sorting').should('equal', JSON.stringify(sortState.BY_DATE));
+        cy.getLocalStorage('sortingTitle').should(
+            'equal',
+            JSON.stringify(sortingText.CREATION_DATE)
+        );
 
         const byDateSortedExpected = [
             'Test todo',
@@ -251,7 +260,7 @@ describe('My First E2E Test', () => {
     });
 });
 
-const todoListLS = [
+const localTodos = [
     { id: '1660138005899', created: 1660138005899, isCompleted: true, label: 'asds dsaddbsaddft' },
     { id: '1660138010767', created: 1660138010767, isCompleted: true, label: 'pouipiuoiuou' },
     { id: '1660138025187', created: 1660138025187, isCompleted: false, label: 'werewrewr' },
@@ -261,6 +270,29 @@ const todoListLS = [
     { id: '1660140356843', created: 1660140356843, isCompleted: false, label: '12213fdgd' },
     { id: '1660307378285', created: 1660307378285, isCompleted: false, label: 'test text' },
 ];
+
+const todoListCreationDate = [...localTodos].sort((a, b) => {
+    if (a.created < b.created) {
+        return -1;
+    }
+    return 1;
+});
+
+const todoListAlphabet = [...localTodos].sort((a, b) => {
+    if (a.label < b.label) {
+        return -1;
+    }
+    return 1;
+});
+
+const todoListAlphabetReverse = [...localTodos]
+    .sort((a, b) => {
+        if (a.label < b.label) {
+            return -1;
+        }
+        return 1;
+    })
+    .reverse();
 
 const orderByCreationDate = [
     'asds dsaddbsaddft',
@@ -306,8 +338,8 @@ describe('Todo Functionality works with localStorage properly', () => {
     });
 
     it('list sorted by creation date if in storage is list sorted by creation date', () => {
-        cy.setLocalStorage('sorting', JSON.stringify(sortState.BY_DATE));
-        cy.setLocalStorage('todo-list', JSON.stringify(todoListLS));
+        cy.setLocalStorage('listTodos', JSON.stringify(todoListCreationDate));
+        cy.setLocalStorage('sortingTitle', JSON.stringify(sortingText.CREATION_DATE));
         cy.visit(page);
 
         cy.get('.todo-item').then((list) => {
@@ -318,8 +350,8 @@ describe('Todo Functionality works with localStorage properly', () => {
     });
 
     it('list sorted by alphabet if in storage is list sorted by alphabet', () => {
-        cy.setLocalStorage('sorting', JSON.stringify(sortState.ALPHABET));
-        cy.setLocalStorage('todo-list', JSON.stringify(todoListLS));
+        cy.setLocalStorage('listTodos', JSON.stringify(todoListAlphabet));
+        cy.setLocalStorage('sortingTitle', JSON.stringify(sortingText.ALPHABET));
         cy.visit(page);
 
         cy.get('.todo-item').then((list) => {
@@ -329,8 +361,8 @@ describe('Todo Functionality works with localStorage properly', () => {
     });
 
     it('list sorted by alphabet if in storage is list sorted by alphabet reverse', () => {
-        cy.setLocalStorage('sorting', JSON.stringify(sortState.ALPHABET_REVERSE));
-        cy.setLocalStorage('todo-list', JSON.stringify(todoListLS));
+        cy.setLocalStorage('listTodos', JSON.stringify(todoListAlphabetReverse));
+        cy.setLocalStorage('sortingTitle', JSON.stringify(sortingText.ALPHABET_REVERSE));
         cy.visit(page);
 
         cy.get('.todo-item').then((list) => {

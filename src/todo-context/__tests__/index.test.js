@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act, create } from 'react-test-renderer';
-import CreateTodo from '~components/create-todo';
-import TodosList from '~components/todos-list';
-import { TodoProvider, sortState } from '../index';
+import App from '../../app';
+import { TodoProvider } from '../index';
+import { sortingText } from '../reducer';
 
 const localStorageMock = (function () {
     let store = {};
@@ -31,8 +31,7 @@ Object.defineProperty(window, 'localStorage', {
 function Test() {
     return (
         <TodoProvider>
-            <CreateTodo />
-            <TodosList />
+            <App />
         </TodoProvider>
     );
 }
@@ -189,7 +188,7 @@ describe('Todo Functionality', () => {
         await user.click(header);
         expect(header.innerHTML).toBe('✨ Sort tasks by: ALPHABET');
         // checking saving sorting in LocalStorage:
-        expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.ALPHABET);
+        expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.ALPHABET);
 
         const alphabetSortedExpected = [
             '321123',
@@ -207,7 +206,7 @@ describe('Todo Functionality', () => {
         await user.click(header);
         expect(header.innerHTML).toBe('✨ Sort tasks by: ALPHABET-REVERSE');
         // checking saving sorting in LocalStorage:
-        expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.ALPHABET_REVERSE);
+        expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.ALPHABET_REVERSE);
 
         const alphabetReverseSortedExpected = [
             'Test todo',
@@ -225,7 +224,7 @@ describe('Todo Functionality', () => {
         await user.click(header);
         expect(header.innerHTML).toBe('✨ Sort tasks by: CREATION DATE');
         // checking saving sorting in LocalStorage:
-        expect(JSON.parse(localStorage.getItem('sorting'))).toBe(sortState.BY_DATE);
+        expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.CREATION_DATE);
 
         const byDateSortedExpected = [
             'Test todo',
@@ -241,7 +240,11 @@ describe('Todo Functionality', () => {
     });
 });
 
-const todoListLS = [
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const localTodos = [
     {
         id: 'asds dsaddbsaddft1660138005899',
         label: 'asds dsaddbsaddft',
@@ -260,7 +263,12 @@ const todoListLS = [
         isCompleted: false,
         created: 1660138025187,
     },
-    { id: 'amfdfd1660138034979', label: 'dfgfdamfdfd', isCompleted: true, created: 1660138034979 },
+    {
+        id: 'amfdfd1660138034979',
+        label: 'dfgfdamfdfd',
+        isCompleted: true,
+        created: 1660138034979,
+    },
     {
         id: 'iidfigdfigdf1660138040124',
         label: 'iidfigdfigdf',
@@ -286,6 +294,29 @@ const todoListLS = [
         created: 1660307378285,
     },
 ];
+
+const todoListCreationDate = [...localTodos].sort((a, b) => {
+    if (a.created < b.created) {
+        return -1;
+    }
+    return 1;
+});
+
+const todoListAlphabet = [...localTodos].sort((a, b) => {
+    if (a.label < b.label) {
+        return -1;
+    }
+    return 1;
+});
+
+const todoListAlphabetReverse = [...localTodos]
+    .sort((a, b) => {
+        if (a.label < b.label) {
+            return -1;
+        }
+        return 1;
+    })
+    .reverse();
 
 const orderByCreationDate = [
     'asds dsaddbsaddft',
@@ -324,29 +355,29 @@ describe('Todo Functionalityworks with localStorage properly', () => {
 
     test('empty list with clean storage', async () => {
         render(<Test />);
-        const orderedLablels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
-        expect(orderedLablels).toEqual([]);
+        const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
+        expect(orderedLabels).toEqual([]);
     });
 
-    test('list sorted by creation date if in storage is list sorted by creation date', async () => {
-        localStorage.setItem('sorting', JSON.stringify(sortState.BY_DATE));
-        localStorage.setItem('todo-list', JSON.stringify(todoListLS));
+    test('list is sorted by creation date in case if list exist in storage and sorted by creation date', async () => {
+        localStorage.setItem('listTodos', JSON.stringify(todoListCreationDate));
+        localStorage.setItem('sortingTitle', JSON.stringify(sortingText.CREATION_DATE));
         render(<Test />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByCreationDate);
     });
 
     test('list sorted by alphabet if in storage is list sorted by alphabet', async () => {
-        localStorage.setItem('sorting', JSON.stringify(sortState.ALPHABET));
-        localStorage.setItem('todo-list', JSON.stringify(todoListLS));
+        localStorage.setItem('listTodos', JSON.stringify(todoListAlphabet));
+        localStorage.setItem('sortingTitle', JSON.stringify(sortingText.ALPHABET));
         render(<Test />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByAlphabet);
     });
 
     test('list sorted by alphabet if in storage is list sorted by alphabet reverse', async () => {
-        localStorage.setItem('sorting', JSON.stringify(sortState.ALPHABET_REVERSE));
-        localStorage.setItem('todo-list', JSON.stringify(todoListLS));
+        localStorage.setItem('listTodos', JSON.stringify(todoListAlphabetReverse));
+        localStorage.setItem('sortingTitle', JSON.stringify(sortingText.ALPHABET_REVERSE));
         render(<Test />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByReverseAlphabet);

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sorting matches snapshot 1`] = `
+<div
+  className="hide-checked"
+>
+  <span
+    className="checkbox"
+    data-testid="sort-checked"
+  >
+    <input
+      className="checkbox__input"
+      data-testid="sort-checked-input"
+      id="#sort-checked"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      className="checkbox__square"
+      data-testid="sort-checked-square"
+      htmlFor="#sort-checked"
+      onKeyDown={[Function]}
+      tabIndex={0}
+    />
+  </span>
+  <label
+    className="label"
+    data-testid="label"
+    htmlFor="#sort-checked"
+  >
+    Hide completed
+  </label>
+</div>
+`;

@@ -12,6 +12,7 @@ export const sortingText = {
 };
 
 function todosReducer(state: ITodoState, action: IAction): ITodoState {
+    const newTodos = [...state.listTodos];
     switch (action.type) {
         case actionTypes.ADD_TODO:
             return {
@@ -19,7 +20,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
                 listTodos: [
                     ...state.listTodos,
                     {
-                        id: Number(new Date()),
+                        id: String(Number(new Date())),
                         label: action.text.trim(),
                         isCompleted: false,
                         created: Number(new Date()),
@@ -28,8 +29,6 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
             };
 
         case actionTypes.CHECK_TODO:
-            console.log(state.listTodos[findTodoIndex(state, action.id)]);
-
             return {
                 ...state,
                 listTodos: state.listTodos.map((todo) => {
@@ -44,27 +43,20 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
             };
 
         case actionTypes.DELETE_TODO:
+            newTodos.splice(findTodoIndex(state, action.id), 1);
             return {
                 ...state,
-                listTodos: [...state.listTodos].splice(findTodoIndex(state, action.id), 1),
+                listTodos: newTodos,
             };
 
         case actionTypes.EDIT_TODO:
+            newTodos.splice(findTodoIndex(state, action.id), 1, {
+                ...state.listTodos[findTodoIndex(state, action.id)],
+                label: action.text,
+            });
             return {
                 ...state,
-                // listTodos: state.listTodos.map((todo) => {
-                //     if (String(action.id) === String(todo.id)) {
-                //         return {
-                //             ...todo,
-                //             isCompleted: action.checked,
-                //         };
-                //     }
-                //     return todo;
-                // }),
-                listTodos: [...state.listTodos].splice(findTodoIndex(state, action.id), 1, {
-                    ...state.listTodos[findTodoIndex(state, action.id)],
-                    label: action.text,
-                }),
+                listTodos: newTodos,
             };
 
         case actionTypes.SORT_BY_DATE:

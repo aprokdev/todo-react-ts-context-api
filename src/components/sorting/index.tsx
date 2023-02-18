@@ -42,4 +42,5 @@ function Sorting({ sortingTitle, dispatch }: ISortingProps) {
     );
 }
 
-export default React.memo(Sorting);
+export default Sorting;
+// export default React.memo(Sorting);

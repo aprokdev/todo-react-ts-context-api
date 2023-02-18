@@ -7,7 +7,7 @@ import Label from '../index';
 
 const props = {
     className: 'test',
-    id: 'test',
+    htmlFor: 'test',
     children: 'Test',
 };
 
@@ -23,7 +23,7 @@ describe('Checkbox', () => {
     test('add passed className prop to the end of classlist', () => {
         const className = 'test';
         render(
-            <Label className={className} id="test">
+            <Label className={className} htmlFor="test">
                 Test
             </Label>
         );
@@ -38,7 +38,7 @@ describe('Checkbox', () => {
         const id = 'test';
         return (
             <div>
-                <Label id={id}>Test</Label>
+                <Label htmlFor={id}>Test</Label>
                 <Checkbox
                     checked={checked}
                     onChange={(e) => setChecked(e.target.checked)}

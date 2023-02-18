@@ -2,7 +2,7 @@
 import React from 'react';
 import Button from '~ui/button';
 import Input from '~ui/input';
-import { actionTypes } from '../../todo-context/actionTypes';
+import { actionTypes } from '~todo-context/actionTypes';
 import './style.scss';
 import { ICreateTodoProps } from './types';
 
@@ -41,4 +41,5 @@ function CreateTodo({ dispatch }: ICreateTodoProps) {
     );
 }
 
-export default React.memo(CreateTodo);
+export default CreateTodo;
+// export default React.memo(CreateTodo);

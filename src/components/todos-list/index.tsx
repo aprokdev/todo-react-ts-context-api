@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import { ITodo } from '~src/todo-context/types';
-import TodoItem from '~components/todo-item';
+import TodoItem from '~components/todo-item/index';
 import './style.scss';
 import { ITodosListProps } from './types';
 
@@ -16,6 +16,7 @@ function TodosList({
     return (
         <React.Fragment>
             {!isCompletedHidden &&
+                Array.isArray(listTodos) &&
                 listTodos.map((todo: ITodo) => {
                     return (
                         <TodoItem
@@ -27,6 +28,7 @@ function TodosList({
                     );
                 })}
             {isCompletedHidden &&
+                Array.isArray(listTodos) &&
                 listTodos
                     .filter(({ isCompleted }: { isCompleted: boolean }) => !isCompleted)
                     .map((todo: ITodo) => {
@@ -43,4 +45,5 @@ function TodosList({
     );
 }
 
-export default React.memo(TodosList);
+export default TodosList;
+// export default React.memo(TodosList);

@@ -3,7 +3,6 @@
 exports[`TodoItem matches snapshot 1`] = `
 <div
   className="todo-item todo-item--invisible"
-  data-testid="todo-item"
 >
   <div
     className="todo-item__check-group"
@@ -39,7 +38,7 @@ exports[`TodoItem matches snapshot 1`] = `
   <span
     className="todo-item__created"
   >
-    Invalid Date
+    02/12/23, 03:00:43 PM
   </span>
   <button
     className="todo-item__action-btn"
