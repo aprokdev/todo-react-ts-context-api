@@ -1,6 +1,9 @@
 @import '~styles/vars';
 
 .sorting {
+    display: flex;  
     margin-bottom: 32px;
-    cursor: pointer;
+    &__title {
+        cursor: pointer;
+    }
 }

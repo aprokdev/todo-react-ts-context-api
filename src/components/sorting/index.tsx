@@ -30,15 +30,17 @@ function Sorting({ sortingTitle, dispatch }: ISortingProps) {
     }, []);
 
     return (
-        <h3
-            className="sorting"
-            onClick={onHeaderlickHeader}
-            tabIndex={0}
-            ref={headerRef}
-            onKeyDown={onKeyDown}
-        >
-            ✨ Sort tasks by: {sortingTitle}
-        </h3>
+        <div className="sorting">
+            <h3
+                className="sorting__title"
+                onClick={onHeaderlickHeader}
+                tabIndex={0}
+                ref={headerRef}
+                onKeyDown={onKeyDown}
+            >
+                ✨ Sort tasks by: {sortingTitle}
+            </h3>
+        </div>
     );
 }
 

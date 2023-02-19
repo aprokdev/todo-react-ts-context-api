@@ -65,7 +65,7 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
                         data-testid={`${label}-edit-field`}
                     />
                 ) : (
-                    <Label htmlFor={id} testId={`${label}-label`}>
+                    <Label htmlFor={String(id)} testId={`${label}-label`}>
                         {label}
                     </Label>
                 )}

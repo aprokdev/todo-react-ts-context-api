@@ -15,7 +15,7 @@ to make a build run `npm run build` or `yarn build`
 To ensure, that sorting works, you can put the following code to console and press Enter, then update page and change sorting by clicking on "Sort tasks by:"
 
 ```
-    localStorage.setItem('todo-list', JSON.stringify([
+    localStorage.setItem('listTodos', JSON.stringify([
         { id: '1660138005899', created: 1660138005899, isCompleted: true, label: 'asds dsaddbsaddft' },
         { id: '1660138010767', created: 1660138010767, isCompleted: true, label: 'pouipiuoiuou' },
         { id: '1660138025187', created: 1660138025187, isCompleted: false, label: 'werewrewr' },

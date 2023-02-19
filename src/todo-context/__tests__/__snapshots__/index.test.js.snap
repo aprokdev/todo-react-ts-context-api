@@ -4,11 +4,20 @@ exports[`Todo Functionality matches snapshot 1`] = `
 <div
   className="app"
 >
-  <h1
-    className="app__title"
+  <div
+    className="app__head"
   >
-    Todo List
-  </h1>
+    <h1
+      className="app__title"
+    >
+      Todo List
+    </h1>
+    <img
+      alt=""
+      className="app__head-img"
+      src=""
+    />
+  </div>
   <form
     className="create-todo"
   >
