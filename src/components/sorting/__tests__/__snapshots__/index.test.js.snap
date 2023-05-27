@@ -5,7 +5,7 @@ exports[`Sorting matches snapshot 1`] = `
   className="sorting"
 >
   <h3
-    className="sorting"
+    className="sorting__title"
     onClick={[Function]}
     onKeyDown={[Function]}
     tabIndex={0}

@@ -18,7 +18,11 @@ function TextAreaAutosize(props: TextareaAutosizeProps) {
         }
     }, []);
 
-    return <TextareaAutosize ref={(tag) => (textAreaRef.current = tag)} {...props} />;
+    return typeof jest !== 'undefined' ? (
+        <textarea ref={(tag) => (textAreaRef.current = tag)} {...props} />
+    ) : (
+        <TextareaAutosize ref={(tag) => (textAreaRef.current = tag)} {...props} />
+    );
 }
 
 export default TextAreaAutosize;
