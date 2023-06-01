@@ -1,7 +1,7 @@
 {
-  "name": "webpack5-react-ts",
+  "name": "todo-react-ts-context-api",
   "version": "1.0.0",
-  "description": "webpack5-react-ts-template",
+  "description": "todo-react-ts-context-api example",
   "main": "index.js",
   "homepage": "app.com",
   "scripts": {
