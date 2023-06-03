@@ -45,5 +45,5 @@ function TodosList({
     );
 }
 
-export default TodosList;
-// export default React.memo(TodosList);
+// export default TodosList;
+export default React.memo(TodosList);

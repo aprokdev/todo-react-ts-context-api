@@ -41,5 +41,5 @@ function CreateTodo({ dispatch }: ICreateTodoProps) {
     );
 }
 
-export default CreateTodo;
-// export default React.memo(CreateTodo);
+// export default CreateTodo;
+export default React.memo(CreateTodo);

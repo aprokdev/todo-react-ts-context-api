@@ -1,55 +1,29 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act, create } from 'react-test-renderer';
+import { TodoProvider } from '~todo-context/index';
 import App from '../../app';
-import { TodoProvider } from '../index';
 import { sortingText } from '../reducer';
+import { renderWithTodoProvider } from '../test-utils';
 
-const localStorageMock = (function () {
-    let store = {};
-
-    return {
-        getItem: function (key) {
-            return store[key] || null;
-        },
-        setItem: function (key, value) {
-            store[key] = value.toString();
-        },
-        removeItem: function (key) {
-            delete store[key];
-        },
-        clear: function () {
-            store = {};
-        },
-    };
-})();
-
-Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
-});
-
-function Test() {
-    return (
-        <TodoProvider>
-            <App />
-        </TodoProvider>
-    );
-}
-
-beforeEach(localStorage.clear); // clean LS after every cleanup
+afterEach(localStorage.clear); // clean LS after every cleanup
 
 describe('Todo Functionality', () => {
     test('matches snapshot', () => {
         let tree;
         act(() => {
-            tree = create(<Test />);
+            tree = create(
+                <TodoProvider>
+                    <App />
+                </TodoProvider>
+            );
         });
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
     test('checks todos header visiability', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
         expect(screen.queryByText(/tasks/i)).toBeNull();
@@ -60,21 +34,24 @@ describe('Todo Functionality', () => {
 
     test('creates todo item', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
+        const test1 = 'Test todo';
+        const test2 = 'Test todo number two!';
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
-        expect(screen.queryByText('Test todo')).toBeNull();
-        await user.type(todoInput, 'Test todo');
+        expect(screen.queryByText(test1)).toBeNull();
+        await user.type(todoInput, test1);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo')).toBeInTheDocument();
-        await user.type(todoInput, 'Test todo number two!');
+        expect(screen.queryByText(test1)).toBeInTheDocument();
+        expect(screen.queryByText(test2)).toBeNull();
+        await user.type(todoInput, test2);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo number two!')).toBeInTheDocument();
+        expect(screen.queryByText(test2)).toBeInTheDocument();
     });
 
     test('check todo works properly', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
         await user.type(todoInput, 'Test todo');
@@ -90,50 +67,54 @@ describe('Todo Functionality', () => {
 
     test('todo is editable', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
+        const test = 'Test todo';
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
-        await user.type(todoInput, 'Test todo');
+        await user.type(todoInput, test);
         await user.click(addTodoBtn);
         const editBtn = screen.getByText(/edit/i);
         await user.click(editBtn);
         const editField = screen.getByTestId('Test todo-edit-field');
         await user.type(editField, ' edited');
-        expect(editField.value).toBe('Test todo edited');
+        expect(editField.value).toBe(`${test} edited`);
         editField.blur();
     });
 
     test('deleting todo works properly', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
+        const test = 'Test todo';
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
-        expect(screen.queryByText('Test todo')).toBeNull();
-        await user.type(todoInput, 'Test todo');
+        expect(screen.queryByText(test)).toBeNull();
+        await user.type(todoInput, test);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo')).toBeInTheDocument();
+        expect(screen.queryByText(test)).toBeInTheDocument();
         const deleteBtn = screen.getByText(/delete/i);
         await user.click(deleteBtn);
-        expect(screen.queryByText('Test todo')).toBeNull();
+        expect(screen.queryByText(test)).toBeNull();
     });
 
     test('"Hide completed" should hide checked todos', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
         // add todo 1
-        expect(screen.queryByText('Test todo')).toBeNull();
-        await user.type(todoInput, 'Test todo');
+        const test1 = 'Test todo';
+        expect(screen.queryByText(test1)).toBeNull();
+        await user.type(todoInput, test1);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo')).toBeInTheDocument();
+        expect(screen.queryByText(test1)).toBeInTheDocument();
         // add todo 2
-        expect(screen.queryByText('Test todo number two')).toBeNull();
-        await user.type(todoInput, 'Test todo number two');
+        const test2 = 'Test todo number two';
+        expect(screen.queryByText(test2)).toBeNull();
+        await user.type(todoInput, test2);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo number two')).toBeInTheDocument();
+        expect(screen.queryByText(test2)).toBeInTheDocument();
         // check todo 2
-        const label = screen.getByText('Test todo number two');
+        const label = screen.getByText(test2);
         const checkbox = screen.getByTestId('Test todo number two-cb-input');
         expect(checkbox).not.toBeChecked();
         await user.click(label);
@@ -144,45 +125,49 @@ describe('Todo Functionality', () => {
         // hide checked todos
         await user.click(filterLabel);
 
-        expect(screen.queryByText('Test todo')).toBeInTheDocument();
-        expect(screen.queryByText('Test todo number two')).toBeNull();
+        expect(screen.queryByText(test1)).toBeInTheDocument();
+        expect(screen.queryByText(test2)).toBeNull();
     });
 
     test('sorting works properly', async () => {
         const user = userEvent.setup();
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const todoInput = screen.getByTestId('todo-input');
         const addTodoBtn = screen.getByTestId('todo-create-btn');
         // add todo 1
-        expect(screen.queryByText('Test todo')).toBeNull();
-        await user.type(todoInput, 'Test todo');
+        const test1 = 'Test todo';
+        expect(screen.queryByText(test1)).toBeNull();
+        await user.type(todoInput, test1);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('Test todo')).toBeInTheDocument();
+        expect(screen.queryByText(test1)).toBeInTheDocument();
         expect(screen.queryByText(/tasks/i)).toBeInTheDocument();
         // add todo 2
-        expect(screen.queryByText('CTest todo number two')).toBeNull();
-        await user.type(todoInput, 'CTest todo number two');
+        const test2 = 'CTest todo number two';
+        expect(screen.queryByText(test2)).toBeNull();
+        await user.type(todoInput, test2);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('CTest todo number two')).toBeInTheDocument();
+        expect(screen.queryByText(test2)).toBeInTheDocument();
         // add todo 3
-        expect(screen.queryByText('ATest todo number three')).toBeNull();
-        await user.type(todoInput, 'ATest todo number three');
+        const test3 = 'ATest todo number three';
+        expect(screen.queryByText(test3)).toBeNull();
+        await user.type(todoInput, test3);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('ATest todo number three')).toBeInTheDocument();
+        expect(screen.queryByText(test3)).toBeInTheDocument();
         // add todo 4
-        expect(screen.queryByText('BTest todo number four')).toBeNull();
-        await user.type(todoInput, 'BTest todo number four');
+        const test4 = 'BTest todo number four';
+        expect(screen.queryByText(test4)).toBeNull();
+        await user.type(todoInput, test4);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('BTest todo number four')).toBeInTheDocument();
+        expect(screen.queryByText(test4)).toBeInTheDocument();
         // add todo 5
-        expect(screen.queryByText('321123')).toBeNull();
-        await user.type(todoInput, '321123');
+        const test5 = '321123';
+        expect(screen.queryByText(test5)).toBeNull();
+        await user.type(todoInput, test5);
         await user.click(addTodoBtn);
-        expect(screen.queryByText('321123')).toBeInTheDocument();
+        expect(screen.queryByText(test5)).toBeInTheDocument();
 
         const header = screen.queryByText(/Sort tasks by: CREATION DATE/i);
-        const regExpToGet =
-            /Test todo|CTest todo number two|ATest todo number three|BTest todo number four|321123/;
+        const regExpToGet = new RegExp(`${test1}|${test2}|${test3}|${test4}|${test5}`);
 
         // after first click on header sorts from A to Z:
         await user.click(header);
@@ -190,13 +175,7 @@ describe('Todo Functionality', () => {
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.ALPHABET);
 
-        const alphabetSortedExpected = [
-            '321123',
-            'ATest todo number three',
-            'BTest todo number four',
-            'CTest todo number two',
-            'Test todo',
-        ];
+        const alphabetSortedExpected = [test5, test3, test4, test2, test1];
         const alphabelSortedLabels = screen
             .queryAllByText(regExpToGet)
             .map((label) => label.innerHTML);
@@ -208,13 +187,7 @@ describe('Todo Functionality', () => {
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.ALPHABET_REVERSE);
 
-        const alphabetReverseSortedExpected = [
-            'Test todo',
-            'CTest todo number two',
-            'BTest todo number four',
-            'ATest todo number three',
-            '321123',
-        ];
+        const alphabetReverseSortedExpected = [test1, test2, test4, test3, test5];
         const alphabeReverselSortedLabels = screen
             .queryAllByText(regExpToGet)
             .map((label) => label.innerHTML);
@@ -226,13 +199,7 @@ describe('Todo Functionality', () => {
         // checking saving sorting in LocalStorage:
         expect(JSON.parse(localStorage.getItem('sortingTitle'))).toBe(sortingText.CREATION_DATE);
 
-        const byDateSortedExpected = [
-            'Test todo',
-            'CTest todo number two',
-            'ATest todo number three',
-            'BTest todo number four',
-            '321123',
-        ];
+        const byDateSortedExpected = [test1, test2, test3, test4, test5];
         const byDateSortedLabels = screen
             .queryAllByText(regExpToGet)
             .map((label) => label.innerHTML);
@@ -354,7 +321,7 @@ describe('Todo Functionalityworks with localStorage properly', () => {
         /asds dsaddbsaddft|pouipiuoiuou|werewrewr|dfgfdamfdfd|iidfigdfigdf|bfsdfdsfds|12213fdgd|test text/;
 
     test('empty list with clean storage', async () => {
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual([]);
     });
@@ -362,7 +329,7 @@ describe('Todo Functionalityworks with localStorage properly', () => {
     test('list is sorted by creation date in case if list exist in storage and sorted by creation date', async () => {
         localStorage.setItem('listTodos', JSON.stringify(todoListCreationDate));
         localStorage.setItem('sortingTitle', JSON.stringify(sortingText.CREATION_DATE));
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByCreationDate);
     });
@@ -370,7 +337,7 @@ describe('Todo Functionalityworks with localStorage properly', () => {
     test('list sorted by alphabet if in storage is list sorted by alphabet', async () => {
         localStorage.setItem('listTodos', JSON.stringify(todoListAlphabet));
         localStorage.setItem('sortingTitle', JSON.stringify(sortingText.ALPHABET));
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByAlphabet);
     });
@@ -378,7 +345,7 @@ describe('Todo Functionalityworks with localStorage properly', () => {
     test('list sorted by alphabet if in storage is list sorted by alphabet reverse', async () => {
         localStorage.setItem('listTodos', JSON.stringify(todoListAlphabetReverse));
         localStorage.setItem('sortingTitle', JSON.stringify(sortingText.ALPHABET_REVERSE));
-        render(<Test />);
+        renderWithTodoProvider(<App />);
         const orderedLabels = screen.queryAllByText(regExpToGet).map((label) => label.innerHTML);
         expect(orderedLabels).toEqual(orderByReverseAlphabet);
     });

@@ -105,5 +105,5 @@ TodoItem.propTypes = {
     testId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default TodoItem;
-// export default React.memo(TodoItem);
+// export default TodoItem;
+export default React.memo(TodoItem);
