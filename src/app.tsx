@@ -14,7 +14,14 @@ function App() {
         <div className="app">
             <div className="app__head">
                 <h1 className="app__title">Todo List</h1>
-                <img src={icon} alt="" className="app__head-img" />
+                <a
+                    href="https://www.typescriptlang.org/"
+                    className="app__link"
+                    target="__blank"
+                    rel="noreferer noopener"
+                >
+                    <img src={icon} alt="" className="app__head-img" />
+                </a>
             </div>
             <CreateTodo dispatch={dispatch} />
             {listTodos.length > 0 && <Sorting sortingTitle={sortingTitle} dispatch={dispatch} />}

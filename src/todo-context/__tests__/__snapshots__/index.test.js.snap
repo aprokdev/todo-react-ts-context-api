@@ -12,11 +12,18 @@ exports[`Todo Functionality matches snapshot 1`] = `
     >
       Todo List
     </h1>
-    <img
-      alt=""
-      className="app__head-img"
-      src=""
-    />
+    <a
+      className="app__link"
+      href="https://www.typescriptlang.org/"
+      rel="noreferer noopener"
+      target="__blank"
+    >
+      <img
+        alt=""
+        className="app__head-img"
+        src=""
+      />
+    </a>
   </div>
   <form
     className="create-todo"
