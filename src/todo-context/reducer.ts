@@ -83,14 +83,12 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
 
         case actionTypes.SORT_BY_ALPHABET_REVERSE:
             return {
-                listTodos: [...state.listTodos]
-                    .sort((a, b) => {
-                        if (a.label < b.label) {
-                            return -1;
-                        }
-                        return 1;
-                    })
-                    .reverse(),
+                listTodos: [...state.listTodos].sort((a, b) => {
+                    if (a.label > b.label) {
+                        return -1;
+                    }
+                    return 1;
+                }),
                 sortingTitle: sortingText.ALPHABET_REVERSE,
             };
 
