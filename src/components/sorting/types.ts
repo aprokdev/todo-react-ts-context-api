@@ -1,4 +1,4 @@
-import { IAction } from '~src/todo-context/types';
+import { IAction } from '@src/todo-context/types';
 
 export interface ISortingProps {
     sortingTitle: string;

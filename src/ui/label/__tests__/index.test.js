@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { act, create } from 'react-test-renderer';
-import Checkbox from '~ui/checkbox';
+import Checkbox from '@ui/checkbox';
 import Label from '../index';
 
 const props = {

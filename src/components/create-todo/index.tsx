@@ -1,8 +1,8 @@
 /* eslint-disable no-extra-boolean-cast */
 import React from 'react';
-import Button from '~ui/button';
-import Input from '~ui/input';
-import { actionTypes } from '~todo-context/actionTypes';
+import Button from '@ui/button';
+import Input from '@ui/input';
+import { actionTypes } from '@todo-context/actionTypes';
 import './style.scss';
 import { ICreateTodoProps } from './types';
 

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import CreateTodo from '~components/create-todo';
-import HideChecked from '~components/hide-checked';
-import Sorting from '~components/sorting';
-import TodosList from '~components/todos-list';
-import { useTodos } from '~todo-context/index';
-import icon from '~img/icon.svg';
+import CreateTodo from '@components/create-todo';
+import HideChecked from '@components/hide-checked';
+import Sorting from '@components/sorting';
+import TodosList from '@components/todos-list';
+import { useTodos } from '@todo-context/index';
+import icon from '@img/icon.svg';
 import './app.scss';
 
 function App() {

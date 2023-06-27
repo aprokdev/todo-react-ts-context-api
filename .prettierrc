@@ -5,12 +5,12 @@
     "semi": true,
     "singleQuote": true,
     "importOrder": [
-        "^~src/(.*)$",
-        "^~ui/(.*)$",
-        "^~components/(.*)$",
-        "^~todo-context/(.*)$",
-        "^~img/(.*)$",
-        "^~styles/(.*)$",
+        "^@src/(.*)$",
+        "^@ui/(.*)$",
+        "^@components/(.*)$",
+        "^@todo-context/(.*)$",
+        "^@img/(.*)$",
+        "^@styles/(.*)$",
         "^[./]"
     ],
     "importOrderSortSpecifiers": true

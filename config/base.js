@@ -16,13 +16,13 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
-            '~src': path.resolve(__dirname, '../src/'),
-            '~ui': path.resolve(__dirname, '../src/ui/'),
-            '~components': path.resolve(__dirname, '../src/components/'),
-            '~todo-context': path.resolve(__dirname, '../src/todo-context/'),
-            '~img': path.resolve(__dirname, '../src/img/'),
-            '~fonts': path.resolve(__dirname, '../src/fonts/'),
-            '~styles': path.resolve(__dirname, '../src/styles'),
+            '@src': path.resolve(__dirname, '../src/'),
+            '@ui': path.resolve(__dirname, '../src/ui/'),
+            '@components': path.resolve(__dirname, '../src/components/'),
+            '@todo-context': path.resolve(__dirname, '../src/todo-context/'),
+            '@img': path.resolve(__dirname, '../src/img/'),
+            '@fonts': path.resolve(__dirname, '../src/fonts/'),
+            '@styles': path.resolve(__dirname, '../src/styles'),
         },
     },
     module: {

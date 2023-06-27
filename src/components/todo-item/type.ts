@@ -1,4 +1,4 @@
-import { IAction, ITodo } from '~src/todo-context/types';
+import { IAction, ITodo } from '@src/todo-context/types';
 
 export interface ITodoProps {
     todo: ITodo;

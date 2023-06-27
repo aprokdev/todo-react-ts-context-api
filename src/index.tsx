@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { TodoProvider } from '~todo-context/index';
+import { TodoProvider } from '@todo-context/index';
 import App from './app';
 import './index.scss';
 

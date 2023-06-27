@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act, create } from 'react-test-renderer';
-import { TodoProvider } from '~todo-context/index';
+import { TodoProvider } from '@todo-context/index';
 import App from '../../app';
 import { sortingText } from '../reducer';
 import { renderWithTodoProvider } from '../test-utils';
