@@ -22,12 +22,13 @@ a {
     text-decoration: none;
 }
 
-a,
-button,
-label,
-[role='button'] {
-    // outline: none;
+a:focus-visible,
+button:focus-visible,
+label:focus-visible,
+input:focus-visible,
+[role='button']:focus-visible {
     outline-color: blue;
+    outline-offset: 3px;
 }
 
 input::placeholder,
@@ -73,10 +74,11 @@ h6 {
 }
 
 h1 {
-    font-size: 24px;
-    font-size: 68px;
-    line-height: 28px;
-    line-height: 68px;
+    font-size: 42px;
+    // font-size: 68px;
+    // line-height: 28px;
+    // line-height: 68px;
+    line-height: 50px;
     @media (min-width: $desktop-breakpoint) {
         font-size: 50px;
         font-size: 68px;
