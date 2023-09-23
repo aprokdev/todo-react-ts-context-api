@@ -41,4 +41,11 @@
             line-height: 50px;
         }
     }
+
+    &__bottom {
+        margin-top: 52px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }

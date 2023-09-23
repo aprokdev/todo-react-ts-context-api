@@ -4,6 +4,13 @@
     display: flex;
     margin-bottom: 32px;
     &__title {
+        font-size: 22px;
+        line-height: 36px;
         cursor: pointer;
+        @media (min-width: $desktop-breakpoint) {
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 40px;
+        }
     }
 }

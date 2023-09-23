@@ -13,6 +13,7 @@ export interface ITodoContext {
 export const TodoContext = React.createContext<ITodoContext>({
     state: {
         listTodos: [],
+        isSavedTodos: true,
         sortingTitle: '',
     },
     dispatch: () => undefined,
@@ -41,16 +42,27 @@ export function useTodos() {
 
 export function TodoProvider({ children }: { children: React.ReactNode }) {
     // this ugly initialState should be as it is to make tests work properly
-    const [state, dispatch] = React.useReducer<Reducer<ITodoState, IAction>>(todosReducer, {
-        listTodos: JSON.parse(localStorage.getItem('listTodos')) || [],
-        sortingTitle: JSON.parse(localStorage.getItem('sortingTitle')) || sortingText.CREATION_DATE,
-    });
+    const [state, dispatch] = React.useReducer<Reducer<ITodoState, IAction>, ITodoState>(
+        todosReducer,
+        { listTodos: [], isSavedTodos: false, sortingTitle: sortingText.CREATION_DATE },
+        () => {
+            const LSTodos = JSON.parse(localStorage.getItem('listTodos')) || [];
+            return {
+                listTodos: LSTodos,
+                isSavedTodos: Array.isArray(LSTodos) ? Boolean(LSTodos.length) : false,
+                sortingTitle:
+                    JSON.parse(localStorage.getItem('sortingTitle')) || sortingText.CREATION_DATE,
+            };
+        }
+    );
     const [isCompletedHidden, setHideCompleted] = React.useState(false);
 
     // saving every edit in localStorage:
     React.useEffect(() => {
-        localStorage.setItem('listTodos', JSON.stringify(state.listTodos));
-        localStorage.setItem('sortingTitle', JSON.stringify(state.sortingTitle));
+        if (state.isSavedTodos) {
+            localStorage.setItem('listTodos', JSON.stringify(state.listTodos));
+            localStorage.setItem('sortingTitle', JSON.stringify(state.sortingTitle));
+        }
     }, [state]);
 
     const value = React.useMemo(

@@ -17,6 +17,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
         case actionTypes.ADD_TODO:
             return {
                 ...state,
+                isSavedTodos: true,
                 listTodos: [
                     ...state.listTodos,
                     {
@@ -31,6 +32,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
         case actionTypes.CHECK_TODO:
             return {
                 ...state,
+                isSavedTodos: true,
                 listTodos: state.listTodos.map((todo) => {
                     if (action.id === todo.id) {
                         return {
@@ -46,6 +48,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
             newTodos.splice(findTodoIndex(state, action.id), 1);
             return {
                 ...state,
+                isSavedTodos: true,
                 listTodos: newTodos,
             };
 
@@ -56,6 +59,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
             });
             return {
                 ...state,
+                isSavedTodos: true,
                 listTodos: newTodos,
             };
 
@@ -67,6 +71,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
                     }
                     return 1;
                 }),
+                isSavedTodos: true,
                 sortingTitle: sortingText.CREATION_DATE,
             };
 
@@ -78,6 +83,7 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
                     }
                     return 1;
                 }),
+                isSavedTodos: true,
                 sortingTitle: sortingText.ALPHABET,
             };
 
@@ -89,7 +95,15 @@ function todosReducer(state: ITodoState, action: IAction): ITodoState {
                     }
                     return 1;
                 }),
+                isSavedTodos: true,
                 sortingTitle: sortingText.ALPHABET_REVERSE,
+            };
+
+        case actionTypes.CLEAN_LS:
+            localStorage.clear();
+            return {
+                ...state,
+                isSavedTodos: false,
             };
 
         default:

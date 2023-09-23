@@ -7,6 +7,7 @@ export interface ITodo {
 
 export interface ITodoState {
     listTodos: ITodo[];
+    isSavedTodos: boolean;
     sortingTitle: string;
 }
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ClearLocalStorage from '@components/clear-local-storage';
 import CreateTodo from '@components/create-todo';
 import HideChecked from '@components/hide-checked';
 import Sorting from '@components/sorting';
@@ -9,7 +10,16 @@ import './app.scss';
 
 function App() {
     const { state, dispatch, isCompletedHidden, setHideCompleted } = useTodos();
-    const { listTodos, sortingTitle } = state;
+    const { listTodos, sortingTitle, isSavedTodos } = state;
+
+    const isCheckedTodos = React.useMemo(() => {
+        return (
+            Array.isArray(listTodos) &&
+            listTodos.length > 0 &&
+            listTodos.find(({ isCompleted }) => isCompleted)
+        );
+    }, [listTodos]);
+
     return (
         <div className="app">
             <div className="app__head">
@@ -31,14 +41,16 @@ function App() {
                 isCompletedHidden={isCompletedHidden}
                 setHideCompleted={setHideCompleted}
             />
-            {Array.isArray(listTodos) &&
-                listTodos.length > 0 &&
-                listTodos.find(({ isCompleted }) => isCompleted) && (
+            <div className="app__bottom">
+                {Array.isArray(listTodos) && listTodos.length > 0 && (
                     <HideChecked
+                        disabled={!isCheckedTodos}
                         isCompletedHidden={isCompletedHidden}
                         setHideCompleted={setHideCompleted}
                     />
                 )}
+                <ClearLocalStorage dispatch={dispatch} isSavedTodos={isSavedTodos} />
+            </div>
         </div>
     );
 }

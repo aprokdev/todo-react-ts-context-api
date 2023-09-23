@@ -4,7 +4,7 @@ import Label from '@ui/label';
 import './style.scss';
 import { IHideCheckedProps } from './types';
 
-function HideChecked({ isCompletedHidden, setHideCompleted }: IHideCheckedProps) {
+function HideChecked({ isCompletedHidden, setHideCompleted, disabled }: IHideCheckedProps) {
     return (
         <div className="hide-checked">
             <Checkbox
@@ -12,8 +12,11 @@ function HideChecked({ isCompletedHidden, setHideCompleted }: IHideCheckedProps)
                 onChange={(e) => setHideCompleted(e.target.checked)}
                 id="#sort-checked"
                 testId="sort-checked"
+                disabled={disabled}
             />
-            <Label htmlFor="#sort-checked">Hide completed</Label>
+            <Label htmlFor="#sort-checked" disabled={disabled}>
+                Hide completed
+            </Label>
         </div>
     );
 }
