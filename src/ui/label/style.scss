@@ -10,4 +10,8 @@
     cursor: pointer;
     vertical-align: top;
     white-space: normal;
+    &.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
 }

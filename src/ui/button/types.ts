@@ -1,8 +1,8 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 
 export interface IButtonProps {
     className?: string;
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick: (event: MouseEvent) => void;
     type?: 'button' | 'submit' | 'reset';
     disabled: boolean;
     children: ReactNode;

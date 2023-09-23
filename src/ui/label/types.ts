@@ -5,4 +5,5 @@ export interface ILabelProps {
     className?: string;
     testId?: string;
     htmlFor: string;
+    disabled?: boolean;
 }

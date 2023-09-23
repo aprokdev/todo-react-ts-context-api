@@ -6,4 +6,5 @@ export interface ICheckboxProps {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     id: string;
     testId?: string;
+    disabled?: boolean;
 }

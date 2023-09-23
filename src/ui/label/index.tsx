@@ -4,11 +4,11 @@ import './style.scss';
 import { ILabelProps } from './types';
 
 function Label(props: ILabelProps): JSX.Element {
-    const { children, className, htmlFor, testId = 'label' } = props;
+    const { children, className, htmlFor, testId = 'label', disabled } = props;
 
     return (
         <label
-            className={`label${className ? ` ${className}` : ''}`}
+            className={`label${className ? ` ${className}` : ''}${disabled ? ' disabled' : ''}`}
             htmlFor={htmlFor}
             data-testid={testId}
         >
@@ -22,6 +22,7 @@ Label.propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     testId: PropTypes.string,
+    diabled: PropTypes.bool,
 };
 
 export default Label;

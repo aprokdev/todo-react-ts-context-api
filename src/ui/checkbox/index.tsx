@@ -6,7 +6,7 @@ import './style.scss';
 import { ICheckboxProps } from './types';
 
 function Checkbox(props: ICheckboxProps): JSX.Element {
-    const { className, checked, onChange, id, testId = 'checkbox' } = props;
+    const { className, checked, onChange, id, testId = 'checkbox', disabled } = props;
     const inputRef = React.useRef(null);
 
     const onKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLLabelElement>) => {
@@ -17,7 +17,10 @@ function Checkbox(props: ICheckboxProps): JSX.Element {
     }, []);
 
     return (
-        <span className={`checkbox${className ? ` ${className}` : ''}`} data-testid={testId}>
+        <span
+            className={`checkbox${className ? ` ${className}` : ''}${disabled ? ' disabled' : ''}`}
+            data-testid={testId}
+        >
             <input
                 type="checkbox"
                 className="checkbox__input"
@@ -26,6 +29,7 @@ function Checkbox(props: ICheckboxProps): JSX.Element {
                 onChange={onChange}
                 ref={inputRef}
                 data-testid={`${testId}-input`}
+                disabled={disabled}
             />
             <label
                 className="checkbox__square"
@@ -46,6 +50,7 @@ Checkbox.propTypes = {
     onChange: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     testId: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 
 export default Checkbox;
