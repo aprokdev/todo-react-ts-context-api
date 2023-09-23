@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { useInView } from 'react-intersection-observer';
 import 'react-intersection-observer/test-utils';
 import { ITodo } from '@src/todo-context/types';
@@ -21,7 +21,11 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
     });
     const flagRef = React.useRef<boolean>(false);
     let changableClasses = 'todo-item--invisible';
-    if (inView || flagRef.current) {
+    // if (inView || flagRef.current) {
+    //     changableClasses = 'todo-item--visible';
+    //     flagRef.current = true;
+    // }
+    if (inView) {
         changableClasses = 'todo-item--visible';
         flagRef.current = true;
     }
@@ -42,6 +46,14 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
             second: '2-digit',
         });
     }, [created]);
+
+    const onEditClick = React.useCallback(
+        (event: MouseEvent): void => {
+            event.preventDefault();
+            setEditing(true);
+        },
+        [setEditing]
+    );
 
     return (
         <div className={`todo-item ${changableClasses}`} data-testid={testId} ref={ref}>
@@ -73,7 +85,7 @@ function TodoItem({ todo, dispatch, testId }: ITodoProps): JSX.Element {
             <span className="todo-item__created">{date}</span>
             <button
                 type="button"
-                onClick={() => setEditing(true)}
+                onClick={onEditClick}
                 disabled={false}
                 className="todo-item__action-btn"
                 data-testid={`${label}-edit`}

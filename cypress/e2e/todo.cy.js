@@ -143,7 +143,7 @@ describe('My First E2E Test', () => {
         cy.contains(todos[1]).should('not.exist');
     });
 
-    it('sorting works properly', async () => {
+    it('sorting works properly', () => {
         // add todo 1
         cy.contains('Test todo').should('not.exist');
         cy.get('#new-todo-input')
@@ -258,6 +258,19 @@ describe('My First E2E Test', () => {
             cy.wrap(labelsList).should('eql', byDateSortedExpected);
         });
     });
+
+    it('Clear Local Storage btn is absent if the todos list in state is empty', () => {
+        cy.contains(/clear local storage/i).should('not.exist');
+
+        // add todo
+        cy.get('#new-todo-input')
+            .type('Test todo', { delay: typeDelay })
+            .should('have.value', 'Test todo');
+        cy.contains(/add/i).click();
+        cy.contains('Test todo').should('exist');
+
+        cy.contains(/clear local storage/i).should('exist');
+    });
 });
 
 const localTodos = [
@@ -334,7 +347,7 @@ describe('Todo Functionality works with localStorage properly', () => {
     it('empty list with clean storage', () => {
         cy.visit(page);
         cy.get('.todo-item').should('not.exist');
-        cy.getLocalStorage('todo-list').then((lsValue) => expect(JSON.parse(lsValue)).to.eql(null));
+        cy.getLocalStorage('listTodos').then((lsValue) => expect(JSON.parse(lsValue)).to.eql(null));
     });
 
     it('list sorted by creation date if in storage is list sorted by creation date', () => {
@@ -369,5 +382,172 @@ describe('Todo Functionality works with localStorage properly', () => {
             const labelsList = [...list].map((todo) => todo.firstChild.children[1].innerHTML);
             cy.wrap(labelsList).should('eql', orderByReverseAlphabet);
         });
+    });
+});
+
+describe('Clearing Local Storage works properly', () => {
+    beforeEach(() => {
+        cy.clearLocalStorage();
+        cy.viewport(1366, 768);
+        cy.visit(page);
+    });
+
+    it('Clicking on clear-local-storage btn cleans LS and removes that btn from document', () => {
+        const firstTodoText = 'Test todo';
+
+        // add todo item
+        cy.get('#new-todo-input')
+            .type(firstTodoText, { delay: typeDelay })
+            .should('have.value', firstTodoText);
+        cy.contains(/add/i).click();
+        cy.contains(firstTodoText).should('exist');
+        cy.get('.todo-item').should('have.length', 1);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) => {
+            expect(JSON.parse(lsValue)).not.to.eql(null);
+        });
+        cy.getLocalStorage('sortingTitle').then((lsValue) => {
+            expect(JSON.parse(lsValue)).not.to.eql(null);
+        });
+
+        cy.contains(/clear local storage/i).should('exist');
+
+        // clear LS by clicking clearLSBtn
+        cy.contains(/clear local storage/i).click();
+
+        // check todo item is cleared from LS and Clear LS btn is not visible
+        cy.getLocalStorage('listTodos').then((lsValue) => expect(JSON.parse(lsValue)).to.eql(null));
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('not.exist');
+    });
+
+    it('Clicking on the checkbox label saves current todos state to LS and clear-local-storage btn is appearing', () => {
+        const firstTodoText = 'Test todo';
+
+        // add todo item
+        cy.get('#new-todo-input')
+            .type(firstTodoText, { delay: typeDelay })
+            .should('have.value', firstTodoText);
+        cy.contains(/add/i).click();
+        cy.contains(firstTodoText).should('exist');
+        cy.get('.todo-item').should('have.length', 1);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
+
+        // clear LS by clicking clearLSBtn
+        cy.contains(/clear local storage/i).click();
+
+        // check todo item is cleared from LS and Clear LS btn is not visible
+        cy.getLocalStorage('listTodos').then((lsValue) => expect(JSON.parse(lsValue)).to.eql(null));
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('not.exist');
+
+        cy.contains(firstTodoText).should('exist');
+        cy.contains(firstTodoText).parent().find('input[type=checkbox]').should('not.be.checked');
+
+        // click in todo's label to check it
+        cy.contains(firstTodoText).click();
+        cy.contains(firstTodoText).parent().find('input[type=checkbox]').should('be.checked');
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
+    });
+
+    it('Editing todos label saves current todos state to LS and clear-local-storage btn is appearing', () => {
+        const firstTodoText = 'Test todo';
+
+        // add todo item
+        cy.get('#new-todo-input')
+            .type(firstTodoText, { delay: typeDelay })
+            .should('have.value', firstTodoText);
+        cy.contains(/add/i).click();
+        cy.contains(firstTodoText).should('exist');
+        cy.get('.todo-item').should('have.length', 1);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
+
+        // clear LS by clicking clearLSBtn
+        cy.contains(/clear local storage/i).click();
+
+        // editing todo's label
+        cy.contains(firstTodoText).should('exist');
+        cy.contains(firstTodoText).get(`[data-testid="${firstTodoText}-edit"]`).click();
+
+        cy.get('.todo-item .todo-item__input')
+            .type(' edited', { delay: typeDelay })
+            .should('have.value', `${firstTodoText} edited`);
+
+        cy.get('.app__title').click(); // blur
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) => {
+            expect(JSON.parse(lsValue)).not.to.eql(null);
+        });
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
+    });
+
+    it('Deleting todos saves current todos state to LS and clear-local-storage btn is appearing', () => {
+        const firstTodoText = 'Test todo';
+
+        // add todo item
+        cy.get('#new-todo-input')
+            .type(firstTodoText, { delay: typeDelay })
+            .should('have.value', firstTodoText);
+        cy.contains(/add/i).click();
+        cy.contains(firstTodoText).should('exist');
+        cy.get('.todo-item').should('have.length', 1);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
+
+        // clear LS by clicking clearLSBtn
+        cy.contains(/clear local storage/i).click();
+
+        // editing todo's label
+        cy.contains(firstTodoText).should('exist');
+        cy.contains(firstTodoText).get(`[data-testid="${firstTodoText}-delete"]`).click();
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        cy.getLocalStorage('listTodos').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.getLocalStorage('sortingTitle').then((lsValue) =>
+            expect(JSON.parse(lsValue)).not.to.eql(null)
+        );
+        cy.contains(/clear local storage/i).should('exist');
     });
 });

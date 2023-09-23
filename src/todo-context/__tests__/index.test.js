@@ -350,3 +350,145 @@ describe('Todo Functionalityworks with localStorage properly', () => {
         expect(orderedLabels).toEqual(orderByReverseAlphabet);
     });
 });
+
+describe('Clearing Local Storage works properly', () => {
+    test('Clicking on clear-local-storage btn cleans LS and removes that btn from document', async () => {
+        const firstTodoText = 'Test todo';
+        const user = userEvent.setup();
+        renderWithTodoProvider(<App />);
+
+        // add todo item
+        const todoInput = screen.getByTestId('todo-input');
+        const addTodoBtn = screen.getByTestId('todo-create-btn');
+        expect(screen.queryByText(/tasks/i)).toBeNull();
+        await user.type(todoInput, firstTodoText);
+        await user.click(addTodoBtn);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        const clearLSBtn = screen.getByTestId('clear-local-storage');
+        expect(clearLSBtn).toBeInTheDocument();
+
+        // clear LS by clicking clearLSBtn
+        await user.click(clearLSBtn);
+
+        // check todo item is cleared from LS and Clear LS btn is not visible
+        expect(localStorage.getItem('listTodos')).toBeNull();
+        expect(localStorage.getItem('sortingTitle')).toBeNull();
+        expect(screen.queryByText(/Clear Local Storage/i)).toBeNull();
+    });
+
+    test('Clicking on the checkbox label saves current todos state to LS and clear-local-storage btn is appearing', async () => {
+        const firstTodoText = 'Test todo';
+        const user = userEvent.setup();
+        renderWithTodoProvider(<App />);
+
+        // add todo item
+        const todoInput = screen.getByTestId('todo-input');
+        const addTodoBtn = screen.getByTestId('todo-create-btn');
+        expect(screen.queryByText(/tasks/i)).toBeNull();
+        await user.type(todoInput, firstTodoText);
+        await user.click(addTodoBtn);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        const clearLSBtn = screen.getByTestId('clear-local-storage');
+        expect(clearLSBtn).toBeInTheDocument();
+
+        // clear LS by clicking clearLSBtn
+        await user.click(clearLSBtn);
+
+        // check todo item is cleared from LS and Clear LS btn is not visible
+        expect(localStorage.getItem('listTodos')).toBeNull();
+        expect(localStorage.getItem('sortingTitle')).toBeNull();
+        expect(screen.queryByText(/Clear Local Storage/i)).toBeNull();
+
+        // click in todo's label to check it
+        const label = screen.getByTestId('Test todo-label');
+        const checkbox = screen.getByTestId('Test todo-cb-input');
+        expect(checkbox).not.toBeChecked();
+        await user.click(label);
+        expect(checkbox).toBeChecked();
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        expect(screen.getByTestId('clear-local-storage')).toBeInTheDocument();
+    });
+
+    test('Editing todos label saves current todos state to LS and clear-local-storage btn is appearing', async () => {
+        const firstTodoText = 'Test todo';
+        const user = userEvent.setup();
+        renderWithTodoProvider(<App />);
+
+        // add todo item
+        const todoInput = screen.getByTestId('todo-input');
+        const addTodoBtn = screen.getByTestId('todo-create-btn');
+        expect(screen.queryByText(/tasks/i)).toBeNull();
+        await user.type(todoInput, firstTodoText);
+        await user.click(addTodoBtn);
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        const clearLSBtn = screen.getByTestId('clear-local-storage');
+        expect(clearLSBtn).toBeInTheDocument();
+
+        // clear LS by clicking clearLSBtn
+        await user.click(clearLSBtn);
+
+        // editing todo's label
+        const editBtn = screen.getByText(/edit/i);
+        await user.click(editBtn);
+        const editField = screen.getByTestId('Test todo-edit-field');
+        await user.type(editField, ' edited');
+        expect(editField.value).toBe('Test todo edited');
+        await user.tab(); // blur
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(screen.getByTestId('clear-local-storage')).toBeInTheDocument();
+    });
+
+    test('Deleting todos saves current todos state to LS and clear-local-storage btn is appearing', async () => {
+        const firstTodoText = 'Test todo';
+        const secondTodoText = 'Test todo number two';
+        const user = userEvent.setup();
+        renderWithTodoProvider(<App />);
+
+        const todoInput = screen.getByTestId('todo-input');
+        const addTodoBtn = screen.getByTestId('todo-create-btn');
+        // add first todo item
+
+        expect(screen.queryByText(/tasks/i)).toBeNull();
+        await user.type(todoInput, firstTodoText);
+        await user.click(addTodoBtn);
+        expect(screen.queryByText(firstTodoText)).toBeInTheDocument();
+
+        // add second todo item
+        await user.type(todoInput, secondTodoText);
+        await user.click(addTodoBtn);
+        expect(screen.queryByText(secondTodoText)).toBeInTheDocument();
+
+        // check todo item is saved in LS and Clear LS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        const clearLSBtn = screen.getByTestId('clear-local-storage');
+        expect(clearLSBtn).toBeInTheDocument();
+
+        // clear LS by clicking clearLSBtn
+        await user.click(clearLSBtn);
+
+        // delete first todo
+        const deleteBtn = screen.getByTestId(`${firstTodoText}-delete`);
+        await user.click(deleteBtn);
+
+        // check if todo now saved in LS and ClearLS btn is visible
+        expect(localStorage.getItem('listTodos')).not.toBeNull();
+        expect(localStorage.getItem('sortingTitle')).not.toBeNull();
+        expect(screen.getByTestId('clear-local-storage')).toBeInTheDocument();
+    });
+});
