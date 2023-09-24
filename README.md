@@ -1,16 +1,22 @@
 ![ts](https://badgen.net/badge/Built%20With/TypeScript/blue)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anton2501/todo/build)
-[![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/facebook/jest)
+![jest](https://jestjs.io/img/jest-badge.svg)
 
 Simple todo app based on React and TS
 
-It is simple todo app, based on React and Typescript. Your todos will be saved in browser's LocalStorage. You can mark todos as complited, also edit them or delete. You can hide completed todos by clicking "Hide completed" checkbox, which appear as soon as you complete at least one todo.
+It is simple todo app, based on React, Typescript and React context. Your todos will be saved in browser's LocalStorage. You can mark todos as complited, also edit them or delete. You can hide completed todos by clicking "Hide completed" checkbox. You can also clean todos, saved in browasers's storage by clicking "Clear Local Storage" button. After that you can update page and see it clean. Please notice, that every action with todos will save them to the browsers storage.
 
 How to start:
 
-Install all dependencies by running `npm install` or `yarn install`
-Srart development by `npm start` or `yarn start`
-to make a build run `npm run build` or `yarn build`
+Install all dependencies by running `npm install` or `yarn install`.
+
+Start development with `npm start` or `yarn start` commands.
+
+To make a production build run `npm run build` or `yarn build`
+
+To run unit tests, run `npm run tests` for verbose results or `npm run test:dev` for development mode.
+
+To run E2E tests, run `npm run tests:e2e`
 
 To ensure, that sorting works, you can put the following code to console and press Enter, then update page and change sorting by clicking on "Sort tasks by:"
 
