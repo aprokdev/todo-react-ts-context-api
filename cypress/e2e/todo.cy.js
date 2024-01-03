@@ -27,6 +27,37 @@ describe('My First E2E Test', () => {
         cy.get('.sorting').should('exist');
     });
 
+    it('checks if input still focused after creating todo', () => {
+        cy.get('.todo-item').should('not.exist');
+
+        cy.get('#new-todo-input')
+            .type(todos[0], { delay: typeDelay })
+            .should('have.value', todos[0]);
+        cy.contains(/add/i).click();
+
+        cy.contains(todos[0]).should('exist');
+        cy.get('.todo-item').should('have.length', 1);
+        cy.get('#new-todo-input').should('be.focused');
+
+        cy.get('#new-todo-input')
+            .type(todos[1], { delay: typeDelay })
+            .should('have.value', todos[1]);
+        cy.contains(/add/i).click();
+
+        cy.contains(todos[1]).should('exist');
+        cy.get('.todo-item').should('have.length', 2);
+        cy.get('#new-todo-input').should('be.focused');
+
+        cy.get('#new-todo-input')
+            .type(todos[2], { delay: typeDelay })
+            .should('have.value', todos[2]);
+        cy.contains(/add/i).click();
+
+        cy.contains(todos[2]).should('exist');
+        cy.get('.todo-item').should('have.length', 3);
+        cy.get('#new-todo-input').should('be.focused');
+    });
+
     it('creates todo items', () => {
         cy.get('.todo-item').should('not.exist');
 
@@ -184,7 +215,7 @@ describe('My First E2E Test', () => {
         cy.contains(/add/i).click();
         cy.contains('321123').should('exist');
 
-        const header = cy.get('.sorting');
+        const header = cy.get('.sorting__title');
 
         cy.get('.sorting').should('contain', 'Sort tasks by: CREATION DATE');
         cy.getLocalStorage('sortingTitle').should(

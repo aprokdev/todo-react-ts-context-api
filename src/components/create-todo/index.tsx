@@ -9,11 +9,16 @@ import { ICreateTodoProps } from './types';
 function CreateTodo({ dispatch }: ICreateTodoProps) {
     const [text, updateText] = React.useState<string>('');
 
+    const inputRef = React.useRef<HTMLInputElement>();
+
     const createTodo = React.useCallback(
         (event: React.MouseEvent<HTMLInputElement>) => {
             event.preventDefault();
             if (text) dispatch({ type: actionTypes.ADD_TODO, text });
             updateText('');
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
         },
         [text, dispatch]
     );
@@ -33,6 +38,7 @@ function CreateTodo({ dispatch }: ICreateTodoProps) {
                 onChange={onChange}
                 id="new-todo-input"
                 testId="todo-input"
+                ref={inputRef}
             />
             <Button type="submit" onClick={createTodo} disabled={!text} testId="todo-create-btn">
                 Add

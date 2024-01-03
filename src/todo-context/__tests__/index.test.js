@@ -49,6 +49,26 @@ describe('Todo Functionality', () => {
         expect(screen.queryByText(test2)).toBeInTheDocument();
     });
 
+    test('checks if input still focused after creating todo', async () => {
+        const user = userEvent.setup();
+        renderWithTodoProvider(<App />);
+        const test1 = 'Test todo';
+        const test2 = 'Test todo number two!';
+        const todoInput = screen.getByTestId('todo-input');
+        const addTodoBtn = screen.getByTestId('todo-create-btn');
+        expect(screen.queryByText(test1)).toBeNull();
+        await user.type(todoInput, test1);
+        await user.click(addTodoBtn);
+        expect(screen.queryByText(test1)).toBeInTheDocument();
+        expect(todoInput).toHaveFocus();
+
+        expect(screen.queryByText(test2)).toBeNull();
+        await user.type(todoInput, test2);
+        await user.click(addTodoBtn);
+        expect(screen.queryByText(test2)).toBeInTheDocument();
+        expect(todoInput).toHaveFocus();
+    });
+
     test('check todo works properly', async () => {
         const user = userEvent.setup();
         renderWithTodoProvider(<App />);
